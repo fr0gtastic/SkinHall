@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Tactical palette — Deep Void + Obsidian Steel */
+    --background: 215 25% 4%;          /* #06080A deep ink */
+    --foreground: 0 0% 96%;
+    --card: 218 18% 9%;                 /* #0f1217 obsidian steel */
+    --card-foreground: 0 0% 96%;
+    --popover: 218 20% 7%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 355 100% 64%;            /* #ff4655 valorant red */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 218 14% 14%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 218 14% 12%;
+    --muted-foreground: 220 8% 60%;
+    --accent: 355 100% 64%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 218 12% 18%;
+    --input: 218 12% 18%;
+    --ring: 355 100% 64%;
+    --radius: 0.25rem;
+
+    /* Rarity tier colors */
+    --tier-select: 208 57% 59%;
+    --tier-deluxe: 174 100% 36%;
+    --tier-premium: 333 58% 57%;
+    --tier-exclusive: 34 90% 55%;
+    --tier-ultra: 52 76% 63%;
+    --tier-standard: 220 8% 52%;
+
+    /* Radianite cyan */
+    --radianite: 188 100% 67%;
+
+    --font-heading: "Chakra Petch", ui-sans-serif, system-ui, sans-serif;
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Chakra Petch", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --sidebar-background: 218 18% 7%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 355 100% 64%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 218 14% 14%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 218 12% 18%;
+    --sidebar-ring: 355 100% 64%;
+  }
+
+  .dark {
+    --background: 215 25% 4%;
+    --foreground: 0 0% 96%;
+    --card: 218 18% 9%;
+    --card-foreground: 0 0% 96%;
+    --popover: 218 20% 7%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 355 100% 64%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 218 14% 14%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 218 14% 12%;
+    --muted-foreground: 220 8% 60%;
+    --accent: 355 100% 64%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 218 12% 18%;
+    --input: 218 12% 18%;
+    --ring: 355 100% 64%;
+    --sidebar-background: 218 18% 7%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 355 100% 64%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 218 14% 14%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 218 12% 18%;
+    --sidebar-ring: 355 100% 64%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    background-color: hsl(var(--background));
+  }
+  ::selection {
+    background-color: hsl(var(--primary) / 0.35);
+    color: white;
+  }
+}
+
+@layer components {
+  /* Signature chamfered card corner (Valorant cut) */
+  .v-cut {
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  }
+  .v-cut-sm {
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .v-skew {
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  }
+
+  /* Section eyebrow red rule */
+  .eyebrow-rule::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 2px;
+    background: hsl(var(--primary));
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.5); }
+
+  /* Density grid: honor the chosen column count on desktop, clamp on small screens. */
+  .density-grid { grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr)); }
+  @media (max-width: 639px) {
+    .density-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  }
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .density-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  }
+
+  .text-glow-red { text-shadow: 0 0 12px hsl(var(--primary) / 0.45); }
+  .radianite-glow { box-shadow: 0 0 15px hsl(var(--radianite) / 0.25); }
+}
+
+@layer utilities {
+  .animate-scan-in {
+    animation: scanIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes scanIn {
+    from { opacity: 0; transform: translateY(8px); filter: brightness(0.6); }
+    to { opacity: 1; transform: translateY(0); filter: brightness(1); }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.25s ease-out both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
