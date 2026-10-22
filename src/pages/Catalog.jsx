@@ -1,11 +1,12 @@
 // Catalog.jsx — the main directory: filter + sort grid, URL-driven.
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useCatalog } from "@/lib/useCatalog";
 import { parseState, buildSearch } from "@/lib/urlState";
 import Hero from "@/components/Hero";
 import FilterBar from "@/components/FilterBar";
 import SkinCard from "@/components/SkinCard";
+import Pagination from "@/components/Pagination";
 
 const TIER_RANK = {
   standard: 0,
@@ -16,13 +17,12 @@ const TIER_RANK = {
   ultra: 5,
 };
 
-const PAGE = 48;
+const PAGE_SIZE = 40;
 
 export default function Catalog() {
   const { data, loading, error } = useCatalog();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [visible, setVisible] = useState(PAGE);
-  const sentinelRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const state = useMemo(() => parseState(searchParams), [searchParams]);
 
@@ -114,9 +114,9 @@ export default function Catalog() {
     return sorted;
   }, [hideFiltered, state]);
 
-  // reset window on filter/sort change
+  // reset to page 1 on filter/sort change
   useEffect(() => {
-    setVisible(PAGE);
+    setCurrentPage(1);
   }, [
     state.weapons.join(","),
     state.collections.join(","),
@@ -129,20 +129,11 @@ export default function Catalog() {
     state.hideSd,
   ]);
 
-  // infinite scroll
-  useEffect(() => {
-    if (!sentinelRef.current) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setVisible((v) => Math.min(v + PAGE, filtered.length));
-        }
-      },
-      { rootMargin: "400px" }
-    );
-    obs.observe(sentinelRef.current);
-    return () => obs.disconnect();
-  }, [filtered.length]);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const pageSlice = useMemo(() => {
+    const start = (currentPage - 1) * PAGE_SIZE;
+    return filtered.slice(start, start + PAGE_SIZE);
+  }, [filtered, currentPage]);
 
   if (loading) {
     return (
@@ -166,7 +157,7 @@ export default function Catalog() {
     );
   }
 
-  const shown = filtered.slice(0, visible);
+  const shown = pageSlice;
 
   return (
     <div className="min-h-screen bg-background">
@@ -201,14 +192,11 @@ export default function Catalog() {
           </div>
         )}
 
-        <div ref={sentinelRef} className="h-12" />
-        {visible < filtered.length && (
-          <div className="flex justify-center py-4">
-            <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-              Loading more…
-            </p>
-          </div>
-        )}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </main>
     </div>
   );
