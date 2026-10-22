@@ -171,6 +171,14 @@ export default function Catalog() {
         shown={filtered.length}
       />
 
+      <div className="mx-auto max-w-[1600px] px-5 pt-6 sm:px-8 sm:pt-8">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      </div>
+
       <main className="mx-auto max-w-[1600px] px-5 py-6 sm:px-8 sm:py-8">
         {shown.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-2 py-24 text-center">
