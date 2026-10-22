@@ -5,7 +5,7 @@ import RarityBadge from "@/components/RarityBadge";
 import PriceTag from "@/components/PriceTag";
 import { deriveRadianite } from "@/lib/adapters/skinsAdapter";
 
-export default function SkinCard({ skin, showRadianite }) {
+export default function SkinCard({ skin, showRadianite, showPrice = true, showLevels = true }) {
   const variantCount = Math.max(0, (skin.chromas?.length || 1) - 1);
   const levelCount = (skin.levels?.length || 0) - 1;
   const radianite = deriveRadianite(skin);
@@ -61,15 +61,17 @@ export default function SkinCard({ skin, showRadianite }) {
             </h3>
             <p className="mt-0.5 truncate text-[11px] uppercase tracking-wider text-muted-foreground">
               {skin.weaponName}
-              {levelCount > 0 && <span className="opacity-60"> · {skin.levels.length} levels</span>}
+              {showLevels && levelCount > 0 && <span className="opacity-60"> · {skin.levels.length} levels</span>}
             </p>
           </div>
-          <PriceTag
-            price={skin.price}
-            radianite={radianite}
-            showRadianite={showRadianite}
-            size="sm"
-          />
+          {showPrice && (
+            <PriceTag
+              price={skin.price}
+              radianite={radianite}
+              showRadianite={showRadianite}
+              size="sm"
+            />
+          )}
         </div>
       </motion.div>
     </Link>

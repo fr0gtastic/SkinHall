@@ -251,7 +251,37 @@ export default function FilterBar({
 
             <div className="h-6 w-px bg-border/70" />
 
-            {/* radianite toggle */}
+            {/* price toggle */}
+            <label className="flex cursor-pointer select-none items-center gap-2 border border-border bg-card/40 px-2.5 py-1.5 v-cut-sm">
+              <Switch
+                checked={state.price}
+                onCheckedChange={(v) => onChange({ price: v })}
+                className="data-[state=checked]:bg-[hsl(var(--primary))]"
+              />
+              <span
+                className={`font-display text-[11px] uppercase tracking-[0.08em] ${
+                  state.price ? "text-[hsl(var(--primary))]" : "text-foreground/60"
+                }`}
+              >
+                Price
+              </span>
+            </label>
+
+            {/* levels toggle */}
+            <label className="flex cursor-pointer select-none items-center gap-2 border border-border bg-card/40 px-2.5 py-1.5 v-cut-sm">
+              <Switch
+                checked={state.levels}
+                onCheckedChange={(v) => onChange({ levels: v })}
+                className="data-[state=checked]:bg-[hsl(var(--primary))]"
+              />
+              <span
+                className={`font-display text-[11px] uppercase tracking-[0.08em] ${
+                  state.levels ? "text-[hsl(var(--primary))]" : "text-foreground/60"
+                }`}
+              >
+                Levels
+              </span>
+            </label>
             <label className="flex cursor-pointer select-none items-center gap-2 border border-border bg-card/40 px-2.5 py-1.5 v-cut-sm">
               <Switch
                 checked={state.rp}

@@ -31,7 +31,7 @@ export default function Catalog() {
     const merged = { ...state, ...next };
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
-      ["w", "b", "sort", "dir", "rp", "hvct", "hbp", "hsd", "rarity", "q", "cols"].forEach((k) =>
+      ["w", "b", "sort", "dir", "rp", "price", "levels", "hvct", "hbp", "hsd", "rarity", "q", "cols"].forEach((k) =>
         params.delete(k)
       );
       const search = buildSearch(merged);
@@ -187,7 +187,7 @@ export default function Catalog() {
             style={{ gridTemplateColumns: `repeat(${state.cols}, minmax(0, 1fr))` }}
           >
             {shown.map((skin) => (
-              <SkinCard key={skin.id} skin={skin} showRadianite={state.rp} />
+              <SkinCard key={skin.id} skin={skin} showRadianite={state.rp} showPrice={state.price} showLevels={state.levels} />
             ))}
           </div>
         )}

@@ -23,6 +23,8 @@ export function parseState(searchParams) {
   const sortKey = searchParams.get("sort") || DEFAULT_SORT.key;
   const dir = searchParams.get("dir") || DEFAULT_SORT.dir;
   const rp = searchParams.get("rp") === "1";
+  const price = searchParams.get("price") !== "0";
+  const levels = searchParams.get("levels") !== "0";
   const hideVct = searchParams.get("hvct") === "1";
   const hideBp = searchParams.get("hbp") === "1";
   const hideSd = searchParams.get("hsd") === "1";
@@ -35,6 +37,8 @@ export function parseState(searchParams) {
     collections: b,
     sort: { key: sortKey, dir },
     rp,
+    price,
+    levels,
     hideVct,
     hideBp,
     hideSd,
@@ -54,6 +58,8 @@ export function buildSearch(state) {
     params.set("dir", state.sort.dir);
   }
   if (state.rp) params.set("rp", "1");
+  if (state.price === false) params.set("price", "0");
+  if (state.levels === false) params.set("levels", "0");
   if (state.hideVct) params.set("hvct", "1");
   if (state.hideBp) params.set("hbp", "1");
   if (state.hideSd) params.set("hsd", "1");
