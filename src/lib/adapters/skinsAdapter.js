@@ -150,14 +150,53 @@ export function tierColorVar(tierId) {
   return t ? t.colorVar : "--tier-standard";
 }
 
+// For a melee skin, find the longest existing collection name that is a
+// word-boundary prefix of the skin name (case-insensitive). Returns the
+// collection slug if found, otherwise null.
+function findMeleeCollectionSlug(skinName, collectionMap) {
+  const lower = skinName.toLowerCase();
+  let best = null;
+  let bestLen = 0;
+  let bestScore = 0;
+const STOP = new Set(["blade", "blades", "of", "to", "the", "knife", "knives", "flail"]);
+    const skinWords = lower.split(/\s+/).filter((w) => !STOP.has(w));
+  for (const [slug, c] of collectionMap) {
+    const cn = c.name.toLowerCase();
+    if (lower === cn) return slug;
+    if (lower.startsWith(cn) && (lower.length === cn.length || /\s/.test(lower[cn.length]))) {
+      if (cn.length > bestLen) { best = slug; bestLen = cn.length; bestScore = 999; }
+    }
+    if (lower.endsWith(cn) && (lower.length === cn.length || /\s/.test(lower[lower.length - cn.length - 1]))) {
+      if (cn.length > bestLen) { best = slug; bestLen = cn.length; bestScore = 999; }
+    }
+const collWords = cn.split(/\s+/).filter((w) => !STOP.has(w));
+    let score = 0;
+    for (const sw of skinWords) {
+      for (const cw of collWords) {
+        if (sw === cw && sw.length >= 4) score += 2;
+        else if (sw.length >= 5 && cw.length >= 5 && (sw.startsWith(cw) || cw.startsWith(sw) || (sw.length >= 7 && cw.length >= 7 && sw.slice(0, 7) === cw.slice(0, 7)))) score += 1;
+      }
+    }
+    if (score > bestScore || (score === bestScore && score > 0 && cn.length > bestLen)) {
+      bestScore = score;
+      best = slug;
+      bestLen = cn.length;
+    }
+  }
+  return bestScore > 0 ? best : null;
+}
+
 export function normalize(raw) {
   const weapons = [];
   const collectionMap = new Map(); // slug -> { id, name, count }
   const skins = [];
 
   const weaponEntries = Object.values(raw);
+  const ordered = [...weaponEntries].sort((a, b) =>
+    (a.weaponId === MELEE_ID) - (b.weaponId === MELEE_ID)
+  );
 
-  for (const w of weaponEntries) {
+  for (const w of ordered) {
     const isMelee = w.weaponId === MELEE_ID;
     const category = WEAPON_CATEGORIES[w.weaponId] || "Other";
     weapons.push({ id: w.weaponId, name: w.displayName, category, icon: w.displayIcon });
@@ -165,16 +204,30 @@ export function normalize(raw) {
     for (const s of w.skins) {
       // Drop junk entries that aren't real weapon skins (e.g. "Random Favorite Skin").
       if (/^Random .+ Skin$/i.test(s.name)) continue;
+      const skinName = (s.name || "").trim();
 
-      const collectionName = deriveCollection(s.name, w.displayName, isMelee);
-      const collectionSlug = slugify(collectionName);
+      let collectionName;
+      let collectionSlug;
+      if (isMelee) {
+        const matchedSlug = findMeleeCollectionSlug(skinName, collectionMap);
+        if (matchedSlug) {
+          collectionSlug = matchedSlug;
+          collectionName = collectionMap.get(matchedSlug).name;
+        } else {
+          collectionName = deriveCollection(skinName, w.displayName, true);
+          collectionSlug = slugify(collectionName);
+        }
+      } else {
+        collectionName = deriveCollection(skinName, w.displayName, false);
+        collectionSlug = slugify(collectionName);
+      }
       const price = s.price ? s.price[VP_CURRENCY] : null;
       const tier = tierForPrice(price, isMelee);
       const isVct = collectionName.toUpperCase().startsWith("VCT");
       const isStandard = price == null;
 
       // Skins with "Standard" in name should not appear as cards
-      if (/^standard\b/i.test(s.name)) continue;
+      if (/^standard\b/i.test(skinName)) continue;
 
       const chromas = (s.chromas || []).map((c) => ({
         id: c.id,
@@ -187,12 +240,12 @@ export function normalize(raw) {
         name: (l.name || "").replace(/\s*\n\s*/g, " ").trim(),
       }));
 
-      const defaultImage =
-        (chromas[0] && chromas[0].image) || w.displayIcon || "";
+       const defaultImage =
+         (chromas[0] && chromas[0].image) || w.displayIcon || "";
 
       const skin = {
         id: s.id,
-        name: s.name,
+        name: skinName,
         weaponId: w.weaponId,
         weaponName: w.displayName,
         category,

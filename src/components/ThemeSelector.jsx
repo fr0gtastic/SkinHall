@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const THEMES = [
-  { id: "skinatlas-dark", name: "SkinHall Dark" },
+  { id: "skinhall-dark", name: "SkinHall Dark" },
   { id: "catppuccin-mocha", name: "Catppuccin Mocha" },
 ];
 

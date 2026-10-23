@@ -51,8 +51,8 @@ A fan-made, static, client-side catalog of Valorant weapon skins. Browse, filter
 
 ```bash
 # Clone the repository
-git clone https://github.com/fr0gtastic/skinatlas.git
-cd skinatlas
+git clone https://github.com/fr0gtastic/skinhall.git
+cd skinhall
 
 # Install dependencies
 npm install
@@ -94,7 +94,7 @@ Each entry in `public/data/skins.json` should include the fields consumed by the
 ## Project Structure
 
 ```
-skinatlas/
+skinhall/
 ├── public/
 │   ├── data/skins.json        # Skin dataset
 │   └── favicon.svg
