@@ -19,6 +19,7 @@ import {
   EyeOff,
   Columns3,
   Gem,
+  Coins,
 } from "lucide-react";
 import { SORT_KEYS, MIN_COLS, MAX_COLS } from "@/lib/urlState";
 import { TIERS } from "@/lib/adapters/skinsAdapter";
@@ -34,6 +35,23 @@ function Pill({ active, onClick, children }) {
           : "border-border bg-card/40 text-foreground/70 hover:border-foreground/40 hover:text-foreground"
       }`}
     >
+      {children}
+    </button>
+  );
+}
+
+// Night Market toggle pill. Active = showing only Night Market-eligible skins.
+function NmPill({ active, onClick, children }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`v-cut-sm flex items-center gap-1.5 border px-2.5 py-1.5 font-display text-[11px] uppercase tracking-[0.08em] transition-all duration-150 ${
+        active
+          ? "border-primary bg-primary/15 text-primary"
+          : "border-border bg-card/40 text-foreground/60 hover:border-foreground/40 hover:text-foreground"
+      }`}
+    >
+      <Coins className="h-3 w-3" />
       {children}
     </button>
   );
@@ -358,6 +376,9 @@ export default function FilterBar({
           <HidePill active={state.hideSd} onClick={() => toggleHide("hideSd")}>
             Select &amp; Deluxe
           </HidePill>
+          <NmPill active={state.hideNm} onClick={() => toggleHide("hideNm")}>
+            Night Market
+          </NmPill>
 
           {/* count */}
           <span className="ml-auto whitespace-nowrap font-mono text-[11px] text-muted-foreground">

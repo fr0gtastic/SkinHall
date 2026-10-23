@@ -173,6 +173,9 @@ export function normalize(raw) {
       const isVct = collectionName.toUpperCase().startsWith("VCT");
       const isStandard = price == null;
 
+      // Skins with "Standard" in name should not appear as cards
+      if (/^standard\b/i.test(s.name)) continue;
+
       const chromas = (s.chromas || []).map((c) => ({
         id: c.id,
         name: (c.name || "").replace(/\s*\n\s*/g, " ").trim(),
@@ -198,6 +201,7 @@ export function normalize(raw) {
         collectionName,
         tierId: tier.id,
         tierName: tier.name,
+        releaseAct: s.releaseAct ?? null,
         defaultImage,
         price, // null => Standard
         isVct,

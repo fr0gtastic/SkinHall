@@ -20,6 +20,7 @@ A fan-made, static, client-side catalog of Valorant weapon skins. Browse, filter
 
 - Browse the full Valorant skin catalog on a responsive, animated grid
 - Filter skins by weapon, rarity, and price range
+- Filter to Night Market-eligible skins (Select/Deluxe/Premium editions, per the Night Market rules)
 - Search skins by name
 - Detailed per-skin pages with pricing, rarity, and radianite upgrade breakdowns
 - Shareable, deep-linkable URLs for individual skins (`/skin/:id`)

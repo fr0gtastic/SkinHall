@@ -36,6 +36,7 @@ export function parseState(searchParams) {
   const hideVct = searchParams.get("hvct") === "1";
   const hideBp = searchParams.get("hbp") === "1";
   const hideSd = searchParams.get("hsd") === "1";
+  const hideNm = searchParams.get("nm") === "1";
   const rarity = (searchParams.get("rarity") || "").split(",").filter(Boolean);
   const q = (searchParams.get("q") || "").trim();
   const colsRaw = parseInt(searchParams.get("cols"), 10);
@@ -50,6 +51,7 @@ export function parseState(searchParams) {
     hideVct,
     hideBp,
     hideSd,
+    hideNm,
     rarity,
     q,
     cols,
@@ -71,6 +73,7 @@ export function buildSearch(state) {
   if (state.hideVct) params.set("hvct", "1");
   if (state.hideBp) params.set("hbp", "1");
   if (state.hideSd) params.set("hsd", "1");
+  if (state.hideNm) params.set("nm", "1");
   if (state.rarity && state.rarity.length) params.set("rarity", state.rarity.join(","));
   if (state.q) params.set("q", state.q);
   if (state.cols && state.cols !== defaultCols()) params.set("cols", String(state.cols));

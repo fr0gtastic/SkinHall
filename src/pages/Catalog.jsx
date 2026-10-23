@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useCatalog } from "@/lib/useCatalog";
 import { parseState, buildSearch } from "@/lib/urlState";
+import { isNightMarketEligible, exclusiveUltraCollectionIds } from "@/lib/nightMarket";
 import Hero from "@/components/Hero";
 import FilterBar from "@/components/FilterBar";
 import SkinCard from "@/components/SkinCard";
@@ -31,7 +32,7 @@ export default function Catalog() {
     const merged = { ...state, ...next };
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
-      ["w", "b", "sort", "dir", "rp", "price", "levels", "hvct", "hbp", "hsd", "rarity", "q", "cols"].forEach((k) =>
+      ["w", "b", "sort", "dir", "rp", "price", "levels", "hvct", "hbp", "hsd", "nm", "rarity", "q", "cols"].forEach((k) =>
         params.delete(k)
       );
       const search = buildSearch(merged);
@@ -41,17 +42,21 @@ export default function Catalog() {
     });
   };
 
-  // Skins remaining after the category-hide toggles (VCT / Battlepass / Select & Deluxe).
-  // These also govern which bundles appear in the dropdown.
+  // Skins remaining after the category-hide toggles (VCT / Battlepass / Select & Deluxe)
+  // and the Night Market eligibility filter. These also govern which bundles appear
+  // in the dropdown.
+  const nmExcludedCollections = useMemo(() => exclusiveUltraCollectionIds(data?.skins), [data]);
+
   const hideFiltered = useMemo(() => {
     if (!data) return [];
     return data.skins.filter((s) => {
       if (state.hideVct && s.isVct) return false;
       if (state.hideBp && s.isStandard) return false;
       if (state.hideSd && (s.tierId === "select" || s.tierId === "deluxe")) return false;
+      if (state.hideNm && !isNightMarketEligible(s, { exclusiveUltraCollections: nmExcludedCollections })) return false;
       return true;
     });
-  }, [data, state.hideVct, state.hideBp, state.hideSd]);
+  }, [data, state.hideVct, state.hideBp, state.hideSd, state.hideNm, nmExcludedCollections]);
 
   // Bundles shown in the dropdown = those with at least one non-hidden skin.
   const visibleCollections = useMemo(() => {
@@ -127,6 +132,7 @@ export default function Catalog() {
     state.hideVct,
     state.hideBp,
     state.hideSd,
+    state.hideNm,
   ]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
