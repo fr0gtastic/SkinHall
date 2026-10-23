@@ -12,6 +12,14 @@ export const SORT_KEYS = [
   { key: "tier", label: "Rarity" },
 ];
 
+export function isMobileViewport() {
+  return typeof window !== "undefined" && window.matchMedia("(max-width: 640px)").matches;
+}
+
+export function defaultCols() {
+  return isMobileViewport() ? 3 : 5;
+}
+
 export const DEFAULT_COLS = 5;
 export const MIN_COLS = 3;
 export const MAX_COLS = 10;
@@ -31,7 +39,7 @@ export function parseState(searchParams) {
   const rarity = (searchParams.get("rarity") || "").split(",").filter(Boolean);
   const q = (searchParams.get("q") || "").trim();
   const colsRaw = parseInt(searchParams.get("cols"), 10);
-  const cols = Number.isFinite(colsRaw) && colsRaw >= MIN_COLS && colsRaw <= MAX_COLS ? colsRaw : DEFAULT_COLS;
+  const cols = Number.isFinite(colsRaw) && colsRaw >= MIN_COLS && colsRaw <= MAX_COLS ? colsRaw : defaultCols();
   return {
     weapons: w,
     collections: b,
@@ -65,7 +73,7 @@ export function buildSearch(state) {
   if (state.hideSd) params.set("hsd", "1");
   if (state.rarity && state.rarity.length) params.set("rarity", state.rarity.join(","));
   if (state.q) params.set("q", state.q);
-  if (state.cols && state.cols !== DEFAULT_COLS) params.set("cols", String(state.cols));
+  if (state.cols && state.cols !== defaultCols()) params.set("cols", String(state.cols));
   const s = params.toString();
   return s ? `?${s}` : "";
 }

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 const THEMES = [
-  { id: "skinatlas-dark", name: "Skinatlas Dark" },
+  { id: "skinatlas-dark", name: "SkinAtlas Dark" },
   { id: "catppuccin-mocha", name: "Catppuccin Mocha" },
 ];
 
 export default function ThemeSelector({ className = "" }) {
   const [active, setActive] = useState(() => {
-    return localStorage.getItem("theme") || THEMES[0].id;
+    return localStorage.getItem("theme") || "catppuccin-mocha";
   });
 
   useEffect(() => {

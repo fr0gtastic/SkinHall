@@ -192,7 +192,7 @@ export default function Catalog() {
         ) : (
           <div
             className="density-grid grid gap-3 sm:gap-4"
-            style={{ gridTemplateColumns: `repeat(${state.cols}, minmax(0, 1fr))` }}
+            style={{ "--cols": state.cols }}
           >
             {shown.map((skin) => (
               <SkinCard key={skin.id} skin={skin} showRadianite={state.rp} showPrice={state.price} showLevels={state.levels} />

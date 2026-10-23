@@ -10,7 +10,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
-      <div className="sticky top-0 z-50 flex justify-end px-5 py-2 bg-background/80 backdrop-blur">
+      <div className="sm:static absolute top-0 right-0 z-50 flex justify-end px-5 py-2 sm:bg-background/80 sm:backdrop-blur bg-transparent">
         <ThemeSelector />
       </div>
       <Routes>

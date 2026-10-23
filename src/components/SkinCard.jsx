@@ -54,14 +54,16 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
         </div>
 
         {/* meta */}
-        <div className="flex items-end justify-between gap-2 px-3 pb-3 pt-2.5">
+        <div className="flex flex-col items-start gap-1 px-3 pb-3 pt-2.5 sm:flex-row sm:items-end sm:justify-between sm:gap-2">
           <div className="min-w-0">
-            <h3 className="truncate font-display text-sm font-semibold text-white">
+            <h3 className="break-words font-display text-sm font-semibold text-white sm:truncate">
               {skin.name}
             </h3>
-            <p className="mt-0.5 truncate text-[11px] uppercase tracking-wider text-muted-foreground">
-              {skin.weaponName}
-              {showLevels && levelCount > 0 && <span className="opacity-60"> · {skin.levels.length} levels</span>}
+            <p className="mt-0.5 text-[11px] uppercase tracking-wider text-muted-foreground sm:truncate">
+              <span className="block sm:inline">{skin.weaponName}</span>
+              {showLevels && levelCount > 0 && (
+                <span className="block sm:inline opacity-60"> · {skin.levels.length} levels</span>
+              )}
             </p>
           </div>
           {showPrice && (

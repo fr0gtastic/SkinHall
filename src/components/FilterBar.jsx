@@ -130,7 +130,7 @@ export default function FilterBar({
     onChange({ weapons: [], collections: [], rarity: [], q: "" });
 
   return (
-    <div className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur-xl">
+    <div className="sm:sticky sm:top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur-xl">
       <div className="mx-auto max-w-[1600px] px-5 sm:px-8">
         {/* row 1: weapon pills + bundle + sort + actions */}
         <div className="flex flex-wrap items-center gap-2 py-3">
@@ -206,7 +206,7 @@ export default function FilterBar({
             </PopoverContent>
           </Popover>
 
-          <div className="ml-auto flex items-center gap-2">
+            <div className="ml-auto flex flex-wrap items-center gap-2">
             {/* sort */}
             <div className="flex items-center gap-1">
               <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground" />
@@ -312,7 +312,7 @@ export default function FilterBar({
         </div>
 
         {/* row 2: search + rarity + hide toggles + count */}
-        <div className="flex flex-wrap items-center gap-2 pb-3">
+        <div className="flex flex-wrap items-center gap-2 border-t border-border/40 pt-2 pb-3 sm:border-0 sm:pt-0">
           {/* search */}
           <div className="relative min-w-[140px] flex-1 sm:max-w-[260px]">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
@@ -343,6 +343,7 @@ export default function FilterBar({
           ))}
 
           <div className="mx-1 hidden h-6 w-px bg-border/70 sm:block" />
+          <div className="basis-full h-px bg-border/40 sm:hidden" />
 
           {/* category-hide toggles */}
           <span className="mr-1 hidden items-center gap-1.5 font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:flex">

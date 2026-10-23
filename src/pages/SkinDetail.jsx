@@ -59,7 +59,7 @@ export default function SkinDetail() {
             to="/"
             className="inline-flex items-center gap-2 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/70 transition-colors hover:text-primary"
           >
-            <ArrowLeft className="h-3.5 w-3.5" /> Skinatlas
+            <ArrowLeft className="h-3.5 w-3.5" /> SkinAtlas
           </Link>
           <CopyLinkButton />
         </div>

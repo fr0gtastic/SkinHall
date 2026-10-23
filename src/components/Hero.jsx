@@ -14,7 +14,7 @@ export default function Hero({ count, filtered }) {
         </p>
         <h1 className="mt-4 font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight text-white sm:text-6xl">
           VALORANT
-          <span className="block text-primary text-glow-red">Skinatlas</span>
+          <span className="block text-primary text-glow-red">SkinAtlas</span>
         </h1>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
           Every skin across {21} weapons, with every chroma and variant as first-class

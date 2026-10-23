@@ -1,8 +1,8 @@
-# Skinatlas — A Valorant Skins Catalog
+# SkinAtlas — A Valorant Skins Catalog
 
 A fan-made, static, client-side catalog of Valorant weapon skins. Browse, filter, and inspect every skin — including pricing, rarity, and radianite costs — without any backend, accounts, or secrets. Built with React and Vite, and deployable to any static host.
 
-> **Fan project notice:** Skinatlas is an unofficial fan project. It is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc. This project is created under Riot Games' ["Legal Jibber Jabber"](https://www.riotgames.com/en/legal) policy. Riot Games does not endorse or sponsor this project.
+> **Fan project notice:** SkinAtlas is an unofficial fan project. It is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc. This project is created under Riot Games' ["Legal Jibber Jabber"](https://www.riotgames.com/en/legal) policy. Riot Games does not endorse or sponsor this project.
 
 ## Table of Contents
 
@@ -141,6 +141,6 @@ Run `npm run build`, then serve the `dist/` directory. Ensure your host is confi
 
 ## Disclaimer
 
-Skinatlas is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+SkinAtlas is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
 
 This is an unofficial, fan-made project created under Riot Games' ["Legal Jibber Jabber"](https://www.riotgames.com/en/legal) policy. Riot Games does not endorse or sponsor this project.
