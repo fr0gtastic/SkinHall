@@ -1,4 +1,4 @@
-// SkinCard.jsx — a single skin in the catalog grid.
+// SkinCard.jsx - a single skin in the catalog grid.
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import RarityBadge from "@/components/RarityBadge";
@@ -14,7 +14,7 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
     <Link
       to={`/skin/${skin.id}${showRadianite ? "?rp=1" : ""}`}
       className="group relative block"
-      aria-label={`${skin.name} — ${skin.weaponName}, ${skin.tierName}`}
+      aria-label={`${skin.name} - ${skin.weaponName}, ${skin.tierName}`}
     >
       <motion.div
         layout

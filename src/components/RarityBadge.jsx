@@ -1,4 +1,4 @@
-// RarityBadge.jsx — per-tier diamond with the Valorant content-tier color.
+// RarityBadge.jsx - per-tier diamond with the Valorant content-tier color.
 export default function RarityBadge({ tierId, tierName, size = 12, withLabel = false }) {
   const colorVar =
     ({

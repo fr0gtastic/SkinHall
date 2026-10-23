@@ -1,4 +1,4 @@
-// Catalog.jsx — the main directory: filter + sort grid, URL-driven.
+// Catalog.jsx - the main directory: filter + sort grid, URL-driven.
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useCatalog } from "@/lib/useCatalog";

@@ -1,4 +1,4 @@
-// PriceTag.jsx — VP price (white mono) + optional Radianite cost (cyan).
+// PriceTag.jsx - VP price (white mono) + optional Radianite cost (cyan).
 import { Sparkles } from "lucide-react";
 
 export default function PriceTag({ price, radianite, showRadianite = false, size = "md" }) {

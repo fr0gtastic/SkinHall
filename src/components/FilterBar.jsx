@@ -1,4 +1,4 @@
-// FilterBar.jsx — the persistent filter HUD: weapon pills, bundle picker,
+// FilterBar.jsx - the persistent filter HUD: weapon pills, bundle picker,
 // sort control, radianite toggle, density, search, rarity, category-hide
 // toggles, reset, and share.
 import { useEffect, useMemo, useRef, useState } from "react";

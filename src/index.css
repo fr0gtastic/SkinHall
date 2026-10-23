@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* Tactical palette — Deep Void + Obsidian Steel */
+    /* Tactical palette - Deep Void + Obsidian Steel */
     --background: 215 25% 4%;          /* #06080A deep ink */
     --foreground: 0 0% 96%;
     --card: 218 18% 9%;                 /* #0f1217 obsidian steel */

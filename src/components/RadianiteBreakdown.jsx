@@ -1,4 +1,4 @@
-// RadianiteBreakdown.jsx — the level/variant RP cost breakdown (detail view).
+// RadianiteBreakdown.jsx - the level/variant RP cost breakdown (detail view).
 import { deriveRadianite } from "@/lib/adapters/skinsAdapter";
 import { Sparkles, TrendingUp, Palette } from "lucide-react";
 

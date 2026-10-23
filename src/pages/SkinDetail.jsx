@@ -1,4 +1,4 @@
-// SkinDetail.jsx — the Chroma Chamber: every chroma as a switchable gallery,
+// SkinDetail.jsx - the Chroma Chamber: every chroma as a switchable gallery,
 // variant levels as a text list, price + rarity, optional radianite breakdown.
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
@@ -59,7 +59,7 @@ export default function SkinDetail() {
             to="/"
             className="inline-flex items-center gap-2 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/70 transition-colors hover:text-primary"
           >
-            <ArrowLeft className="h-3.5 w-3.5" /> SkinAtlas
+            <ArrowLeft className="h-3.5 w-3.5" /> SkinHall
           </Link>
           <CopyLinkButton />
         </div>
@@ -171,7 +171,7 @@ export default function SkinDetail() {
 
           {showRadianite && <RadianiteBreakdown skin={skin} />}
 
-          {/* variant levels (text only — no art in the data) */}
+          {/* variant levels (text only - no art in the data) */}
           {skin.levels.length > 0 && (
             <div className="rounded-lg border border-border bg-card/60 p-4 v-cut-sm">
               <p className="mb-2 flex items-center gap-1.5 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/80">

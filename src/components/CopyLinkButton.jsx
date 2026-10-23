@@ -1,4 +1,4 @@
-// CopyLinkButton.jsx — shares the current view via URL.
+// CopyLinkButton.jsx - shares the current view via URL.
 import { useState } from "react";
 import { Link2, Check } from "lucide-react";
 
