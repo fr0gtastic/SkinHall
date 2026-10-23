@@ -81,6 +81,36 @@
     --sidebar-border: 218 12% 18%;
     --sidebar-ring: 355 100% 64%;
   }
+
+  .catppuccin-mocha {
+    --background: 240 21% 15%;
+    --foreground: 226 64% 88%;
+    --card: 240 21% 12%;
+    --card-foreground: 226 64% 88%;
+    --popover: 240 23% 9%;
+    --popover-foreground: 226 64% 88%;
+    --primary: 267 84% 81%;
+    --primary-foreground: 240 23% 9%;
+    --secondary: 237 16% 23%;
+    --secondary-foreground: 226 64% 88%;
+    --muted: 237 16% 23%;
+    --muted-foreground: 227 27% 72%;
+    --accent: 217 92% 76%;
+    --accent-foreground: 240 23% 9%;
+    --destructive: 343 81% 75%;
+    --destructive-foreground: 226 64% 88%;
+    --border: 234 13% 31%;
+    --input: 234 13% 31%;
+    --ring: 267 84% 81%;
+    --sidebar-background: 240 21% 12%;
+    --sidebar-foreground: 226 64% 88%;
+    --sidebar-primary: 267 84% 81%;
+    --sidebar-primary-foreground: 240 23% 9%;
+    --sidebar-accent: 237 16% 23%;
+    --sidebar-accent-foreground: 226 64% 88%;
+    --sidebar-border: 234 13% 31%;
+    --sidebar-ring: 267 84% 81%;
+  }
 }
 
 @layer base {

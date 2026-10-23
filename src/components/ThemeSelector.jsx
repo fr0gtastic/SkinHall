@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const THEMES = [{ id: "skinatlas-dark", name: "Skinatlas Dark" }];
+const THEMES = [
+  { id: "skinatlas-dark", name: "Skinatlas Dark" },
+  { id: "catppuccin-mocha", name: "Catppuccin Mocha" },
+];
 
 export default function ThemeSelector({ className = "" }) {
-  const [active, setActive] = useState(THEMES[0].id);
+  const [active, setActive] = useState(() => {
+    return localStorage.getItem("theme") || THEMES[0].id;
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    THEMES.forEach((t) => root.classList.remove(t.id));
+    root.classList.add(active);
+    localStorage.setItem("theme", active);
+  }, [active]);
+
   return (
     <label className={`inline-flex items-center gap-2 ${className}`}>
       <span className="text-xs text-muted-foreground">Theme</span>
