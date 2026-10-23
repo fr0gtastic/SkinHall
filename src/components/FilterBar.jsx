@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
-import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import {
   ChevronDown,
@@ -20,6 +19,8 @@ import {
   Columns3,
   Gem,
   Coins,
+  Plus,
+  Minus,
 } from "lucide-react";
 import { SORT_KEYS, MIN_COLS, MAX_COLS } from "@/lib/urlState";
 import { TIERS } from "@/lib/adapters/skinsAdapter";
@@ -251,20 +252,27 @@ export default function FilterBar({
             <div className="h-6 w-px bg-border/70" />
 
             {/* density control */}
-            <div className="flex items-center gap-2 border border-border bg-card/40 px-2.5 py-1.5 v-cut-sm">
+            <div className="flex items-center gap-1.5 border border-border bg-card/40 px-1.5 py-1.5 v-cut-sm">
               <Columns3 className="h-3.5 w-3.5 text-muted-foreground" />
-              <Slider
-                value={[state.cols]}
-                min={MIN_COLS}
-                max={MAX_COLS}
-                step={1}
-                onValueChange={([v]) => onChange({ cols: v })}
-                className="w-20"
-                aria-label="Columns per row"
-              />
+              <button
+                onClick={() => onChange({ cols: Math.max(MIN_COLS, state.cols - 1) })}
+                disabled={state.cols <= MIN_COLS}
+                aria-label="Fewer columns"
+                className="flex h-6 w-6 items-center justify-center rounded border border-border bg-card/60 text-foreground/70 transition-all hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Minus className="h-3.5 w-3.5" />
+              </button>
               <span className="w-5 text-center font-mono text-[11px] font-semibold text-foreground/80">
                 {state.cols}
               </span>
+              <button
+                onClick={() => onChange({ cols: Math.min(MAX_COLS, state.cols + 1) })}
+                disabled={state.cols >= MAX_COLS}
+                aria-label="More columns"
+                className="flex h-6 w-6 items-center justify-center rounded border border-border bg-card/60 text-foreground/70 transition-all hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Plus className="h-3.5 w-3.5" />
+              </button>
             </div>
 
             <div className="h-6 w-px bg-border/70" />
