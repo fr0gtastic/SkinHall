@@ -41,7 +41,7 @@ export default function SkinDetail() {
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 px-6 text-center">
         <p className="font-display text-sm uppercase tracking-wider text-primary">Skin not found</p>
         <Link to="/" className="text-xs text-muted-foreground underline hover:text-foreground">
-          Back to arsenal
+          Back to catalog
         </Link>
       </div>
     );
@@ -59,7 +59,7 @@ export default function SkinDetail() {
             to="/"
             className="inline-flex items-center gap-2 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/70 transition-colors hover:text-primary"
           >
-            <ArrowLeft className="h-3.5 w-3.5" /> Arsenal
+            <ArrowLeft className="h-3.5 w-3.5" /> Skinatlas
           </Link>
           <CopyLinkButton />
         </div>
@@ -205,7 +205,7 @@ export default function SkinDetail() {
           {!showRadianite && (
             <p className="text-[11px] text-muted-foreground">
               <Tag className="mr-1 inline h-3 w-3 align-text-bottom" />
-              Enable “RP” in the arsenal to see Radianite upgrade costs.
+              Enable “RP” in the catalog to see Radianite upgrade costs.
             </p>
           )}
         </div>

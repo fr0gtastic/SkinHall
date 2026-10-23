@@ -140,7 +140,7 @@ export default function Catalog() {
       <div className="flex min-h-screen flex-col items-center justify-center gap-3">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/30 border-t-primary" />
         <p className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Loading arsenal…
+          Loading catalog...
         </p>
       </div>
     );
