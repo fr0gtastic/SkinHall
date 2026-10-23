@@ -8,7 +8,7 @@ export default function Footer() {
           VALORANT Arsenal
         </p>
         <p className="mt-2 text-xs text-muted-foreground/60">
-          VALORANT Arsenal is an unofficial fan site is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc. Riot Games' legal information is available at{" "}
+          VALORANT Arsenal is an unofficial fan site. It is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc. Riot Games' legal information is available at{" "}
           <a
             href="https://www.riotgames.com/en/legal"
             target="_blank"
