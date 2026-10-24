@@ -8,7 +8,7 @@ export default function Footer() {
           SkinHall
         </p>
         <p className="mt-2 text-xs text-muted-foreground/60">
-          SkinHall is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc. This is an unofficial, fan-made project created under Riot Games' "Legal Jibber Jabber" policy.
+          SkinHall is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc. This is an unofficial, fan-made project created under Riot Games' <a href="https://www.riotgames.com/en/legal" target="_blank" rel="noopener noreferrer" className="underline hover:text-muted-foreground">"Legal Jibber Jabber"</a> policy.
         </p>
         <p className="mt-1 text-xs text-muted-foreground/60">
           Released under the MIT License. &copy; {new Date().getFullYear()}.
