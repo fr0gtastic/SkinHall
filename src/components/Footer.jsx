@@ -1,4 +1,5 @@
 import React from "react";
+import { Github } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -12,6 +13,12 @@ export default function Footer() {
         </p>
         <p className="mt-1 text-xs text-muted-foreground/60">
           Released under the MIT License. &copy; {new Date().getFullYear()}.
+        </p>
+        <p className="mt-4 text-xs text-muted-foreground/60">
+          <a href="https://github.com/fr0gtastic/SkinHall" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 underline hover:text-muted-foreground">
+            <Github className="h-3.5 w-3.5" />
+            View source on GitHub
+          </a>
         </p>
       </div>
     </footer>
