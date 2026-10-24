@@ -3,6 +3,8 @@
 // Raw shape: object keyed by weapon UUID -> { weaponId, displayName, displayIcon, skins[] }
 // A future live API or updated file touches only this module.
 
+import { MELEE_COLLECTION_OVERRIDES } from "../../data/meleeCollectionOverrides.js";
+
 const VP_CURRENCY = "85ad13f7-3d1b-5128-9eb2-7cd8ee0b5741";
 const RP_CURRENCY = "e59aa87c-4cbf-517a-5983-6e81511be9b7";
 const MELEE_ID = "2F59173C-4BED-B6C3-2191-DEA9B58BE9C7";
@@ -59,7 +61,7 @@ export const TIERS = [
 ];
 
 // Known melee weapon-type suffix words, used to derive a melee skin's collection.
-const MELEE_TYPE_WORDS = new Set([
+export const MELEE_TYPE_WORDS = new Set([
   "Knife", "Knives", "Sword", "Blade", "Blades", "Karambit", "Dagger", "Daggers",
   "Axe", "Axes", "Battleaxe", "Hammer", "Fan", "Fanblade", "Baton", "Staff",
   "Kunai", "Bat", "Scythe", "Splitter", "Crowbar", "Comb", "Harvester", "Anchor",
@@ -76,6 +78,16 @@ function slugify(s) {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "") || "item"
   );
+}
+
+// Reverse of slugify: turn a slug into a display name.
+// Used when an override references a collection that has not been
+// created yet, so we need a fallback display name from the slug itself.
+function unslugify(slug) {
+  return slug
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .trim() || slug;
 }
 
 // Derive a skin's collection (bundle) from its name.
@@ -209,13 +221,20 @@ export function normalize(raw) {
       let collectionName;
       let collectionSlug;
       if (isMelee) {
-        const matchedSlug = findMeleeCollectionSlug(skinName, collectionMap);
-        if (matchedSlug) {
-          collectionSlug = matchedSlug;
-          collectionName = collectionMap.get(matchedSlug).name;
+        const overrideSlug = MELEE_COLLECTION_OVERRIDES[s.id];
+        if (overrideSlug) {
+          collectionSlug = overrideSlug;
+          const existing = collectionMap.get(overrideSlug);
+          collectionName = existing ? existing.name : unslugify(overrideSlug);
         } else {
-          collectionName = deriveCollection(skinName, w.displayName, true);
-          collectionSlug = slugify(collectionName);
+          const matchedSlug = findMeleeCollectionSlug(skinName, collectionMap);
+          if (matchedSlug) {
+            collectionSlug = matchedSlug;
+            collectionName = collectionMap.get(matchedSlug).name;
+          } else {
+            collectionName = deriveCollection(skinName, w.displayName, true);
+            collectionSlug = slugify(collectionName);
+          }
         }
       } else {
         collectionName = deriveCollection(skinName, w.displayName, false);
