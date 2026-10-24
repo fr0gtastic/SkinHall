@@ -156,6 +156,26 @@ function deriveCollection(skinName, weaponName, isMelee) {
   return consolidateVctBundle(skinName) || skinName;
 }
 
+// Tier rank used for tie-breaking when a collection's gun tiers disagree.
+const TIER_RANK = {
+  standard: 0,
+  select: 1,
+  deluxe: 2,
+  premium: 3,
+  exclusive: 4,
+  ultra: 5,
+};
+
+// Most common tier id among `tierIds`; ties resolve to the lowest rank.
+function modeTierId(tierIds) {
+  const counts = {};
+  for (const id of tierIds) counts[id] = (counts[id] || 0) + 1;
+  const ids = Object.keys(counts);
+  ids.sort((a, b) => counts[b] - counts[a] || TIER_RANK[a] - TIER_RANK[b]);
+  const t = TIERS.find((x) => x.id === ids[0]);
+  return t ? { id: t.id, name: t.name } : null;
+}
+
 // Rarity tier from VP price. Exact match first, then closest-tier fallback.
 // null price -> Standard tier.
 function tierForPrice(price, isMelee) {
@@ -245,7 +265,7 @@ const collWords = cn.split(/\s+/).filter((w) => !STOP.has(w));
 
 export function normalize(raw) {
   const weapons = [];
-  const collectionMap = new Map(); // slug -> { id, name, count }
+  const collectionMap = new Map(); // slug -> { id, name, count, members: Skin[] }
   const skins = [];
 
   const weaponEntries = Object.values(raw);
@@ -291,7 +311,7 @@ export function normalize(raw) {
         collectionSlug = "agent-gear";
       }
       const price = s.price ? s.price[VP_CURRENCY] : null;
-      const tier = agentGearAgent ? null : tierForPrice(price, isMelee);
+      const rawTier = agentGearAgent ? null : tierForPrice(price, isMelee);
       const isVct = collectionName.toUpperCase().startsWith("VCT");
       const isStandard = price == null && !agentGearAgent;
 
@@ -321,8 +341,12 @@ export function normalize(raw) {
         isMelee,
         collectionId: collectionSlug,
         collectionName,
-        tierId: tier ? tier.id : null,
-        tierName: tier ? tier.name : null,
+        // Default tier from this skin's own VP price (original behavior).
+        tierId: rawTier ? rawTier.id : null,
+        tierName: rawTier ? rawTier.name : null,
+        // Price-derived tier kept so melees can inherit their bundle's gun tier below.
+        _rawTierId: rawTier ? rawTier.id : null,
+        _rawTierName: rawTier ? rawTier.name : null,
         releaseAct: s.releaseAct ?? null,
         defaultImage,
         price, // null => Standard
@@ -336,9 +360,39 @@ export function normalize(raw) {
       skins.push(skin);
 
       if (!collectionMap.has(collectionSlug)) {
-        collectionMap.set(collectionSlug, { id: collectionSlug, name: collectionName, count: 0 });
+        collectionMap.set(collectionSlug, { id: collectionSlug, name: collectionName, count: 0, members: [] });
       }
-      collectionMap.get(collectionSlug).count += 1;
+      const entry = collectionMap.get(collectionSlug);
+      entry.count += 1;
+      entry.members.push(skin);
+    }
+  }
+
+  // For melees in a bundle that also contains guns, inherit the bundle's gun
+  // tier (guns carry honest content-tier prices). Melee prices are inflated for
+  // the same tier, so a melee's own price can map to a higher tier than its
+  // bundle's guns (e.g. Minima Karambit 3550 VP -> Premium while Minima guns
+  // are 1275 VP -> Deluxe). Melee-only bundles and all guns keep their own
+  // price-derived tier.
+  const collectionGunTier = new Map();
+  for (const entry of collectionMap.values()) {
+    const gunTiers = entry.members
+      .filter((m) => !m.isMelee && m._rawTierId != null)
+      .map((m) => m._rawTierId);
+    if (gunTiers.length > 0) {
+      collectionGunTier.set(entry.id, modeTierId(gunTiers));
+    }
+  }
+
+  for (const skin of skins) {
+    if (
+      skin.isMelee &&
+      skin._rawTierId != null &&
+      collectionGunTier.has(skin.collectionId)
+    ) {
+      const coll = collectionGunTier.get(skin.collectionId);
+      skin.tierId = coll.id;
+      skin.tierName = coll.name;
     }
   }
 
