@@ -14,7 +14,7 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
     <Link
       to={`/skin/${skin.id}${showRadianite ? "?rp=1" : ""}`}
       className="group relative block"
-      aria-label={`${skin.name} - ${skin.weaponName}, ${skin.tierName}`}
+      aria-label={`${skin.name} - ${skin.weaponName}${skin.tierName ? ", " + skin.tierName : ""}`}
     >
       <motion.div
         layout
@@ -24,10 +24,12 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
         className="relative h-full v-cut border border-border bg-card overflow-hidden transition-all duration-200 hover:border-primary/70 hover:-translate-y-1 hover:shadow-[0_12px_40px_-12px_rgba(255,70,85,0.35)]"
       >
         {/* tier edge accent */}
-        <span
-          className="pointer-events-none absolute inset-x-0 top-0 h-[2px] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-          style={{ backgroundColor: `hsl(var(--tier-${skin.tierId}, var(--tier-standard)))` }}
-        />
+        {skin.tierId && (
+          <span
+            className="pointer-events-none absolute inset-x-0 top-0 h-[2px] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            style={{ backgroundColor: `hsl(var(--tier-${skin.tierId}))` }}
+          />
+        )}
 
         {/* render */}
         <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-b from-black/40 to-black/10">
@@ -47,10 +49,11 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
               +{variantCount} variant{variantCount === 1 ? "" : "s"}
             </span>
           )}
-          {/* rarity diamond */}
-          <span className="absolute right-2 top-2">
-            <RarityBadge tierId={skin.tierId} tierName={skin.tierName} />
-          </span>
+          {skin.tierId && (
+            <span className="absolute right-2 top-2">
+              <RarityBadge tierId={skin.tierId} tierName={skin.tierName} />
+            </span>
+          )}
         </div>
 
         {/* meta */}
@@ -66,7 +69,11 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
               )}
             </p>
           </div>
-          {showPrice && (
+          {showPrice && skin.agentName ? (
+            <div className="font-mono font-semibold text-sm text-white text-end">
+              {skin.agentName}
+            </div>
+          ) : showPrice && (
             <PriceTag
               price={skin.price}
               radianite={radianite}

@@ -69,10 +69,12 @@ export default function SkinDetail() {
         {/* gallery */}
         <div>
           <div className="relative aspect-[4/3] v-cut border border-border bg-card overflow-hidden">
-            <span
-              className="pointer-events-none absolute inset-x-0 top-0 h-[2px]"
-              style={{ backgroundColor: `hsl(var(--tier-${skin.tierId}, var(--tier-standard)))` }}
-            />
+            {skin.tierId && (
+              <span
+                className="pointer-events-none absolute inset-x-0 top-0 h-[2px]"
+                style={{ backgroundColor: `hsl(var(--tier-${skin.tierId}))` }}
+              />
+            )}
             <AnimatePresence mode="wait">
               <motion.img
                 key={chroma.id || skin.id}
@@ -85,9 +87,11 @@ export default function SkinDetail() {
                 className="absolute inset-0 h-full w-full object-contain p-6"
               />
             </AnimatePresence>
-            <span className="absolute right-3 top-3">
-              <RarityBadge tierId={skin.tierId} tierName={skin.tierName} size={14} />
-            </span>
+            {skin.tierId && (
+              <span className="absolute right-3 top-3">
+                <RarityBadge tierId={skin.tierId} tierName={skin.tierName} size={14} />
+              </span>
+            )}
           </div>
 
           {/* chroma swatches */}
@@ -151,20 +155,28 @@ export default function SkinDetail() {
           </div>
 
           <div className="flex items-center justify-between rounded-lg border border-border bg-card/60 p-4 v-cut-sm">
-            <div>
-              <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                Rarity
-              </p>
-              <div className="mt-1.5">
-                <RarityBadge tierId={skin.tierId} tierName={skin.tierName} withLabel />
+            {skin.tierId && (
+              <div>
+                <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  Rarity
+                </p>
+                <div className="mt-1.5">
+                  <RarityBadge tierId={skin.tierId} tierName={skin.tierName} withLabel />
+                </div>
               </div>
-            </div>
+            )}
             <div className="text-right">
               <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
                 Price
               </p>
               <div className="mt-1.5">
-                <PriceTag price={skin.price} radianite={radianite} showRadianite={showRadianite} />
+                {skin.agentName ? (
+                  <span className="font-mono font-semibold text-base text-white">
+                    {skin.agentName}
+                  </span>
+                ) : (
+                  <PriceTag price={skin.price} radianite={radianite} showRadianite={showRadianite} />
+                )}
               </div>
             </div>
           </div>

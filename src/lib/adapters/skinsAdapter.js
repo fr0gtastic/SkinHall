@@ -70,6 +70,41 @@ export const MELEE_TYPE_WORDS = new Set([
   "Electroblade", "Coiler", "Ascender", "Melee", "Spear", "Edge",
 ]);
 
+// Agent Gear weapon skins: unlockable at Tier 10 using Kingdom Credits when the
+// agent is unlocked. Keyed by skin name -> associated agent name. These are
+// collapsed into a single "Agent Gear" bundle with no rarity assigned.
+export const AGENT_GEAR = {
+  "Eclipse Ghost": "Astra",
+  "RagnaRocker Frenzy": "Breach",
+  "Peacekeeper Sheriff": "Brimstone",
+  "Finesse Classic": "Chamber",
+  "Flutter Ghost": "Clove",
+  "Hush Ghost": "Cypher",
+  "Resolution Classic": "Deadlock",
+  "Karabasan Shorty": "Fade",
+  "Sidekick Shorty": "Gekko",
+  "Wayfarer Sheriff": "Harbor",
+  "Mythmaker Sheriff": "Iso",
+  "Game Over Sheriff": "Jett",
+  "FIRE/arm Classic": "KAYO",
+  "Wunderkind Shorty": "Killjoy",
+  "Headbanger Classic": "Miks",
+  "Live Wire Frenzy": "Neon",
+  "Soul Silencer Ghost": "Omen",
+  "Spitfire Frenzy": "Phoenix",
+  "Pistolinha Classic": "Raze",
+  "Vendetta Ghost": "Reyna",
+  "Final Chamber Classic": "Sage",
+  "Swooping Frenzy": "Skye",
+  "Protektor Sheriff": "Sova",
+  "Hard Bargain Shorty": "Tejo",
+  "Enforcer Sheriff": "Veto",
+  "Snakebite Shorty": "Viper",
+  "Steel Resolve Classic": "Vyse",
+  "Kaleidoscope Frenzy": "Waylay",
+  "Death Wish Sheriff": "Yoru",
+};
+
 function slugify(s) {
   return (
     s
@@ -90,6 +125,16 @@ function unslugify(slug) {
     .trim() || slug;
 }
 
+function consolidateVctBundle(name) {
+  if (!name) return null;
+  const n = name.trim();
+  if (/^VCT\s*LOCK\/\/IN\s*Misericordia/i.test(n)) return "VCT LOCK//IN Misericordia";
+  if (/^VCT25\s+x\b/i.test(n)) return "VCT25 x";
+  if (/^VCT26\s+x\b/i.test(n)) return "VCT26 x";
+  if (/^VCT\s+x\b/i.test(n)) return "VCT x";
+  return null;
+}
+
 // Derive a skin's collection (bundle) from its name.
 // Guns: strip the trailing weapon name. Melee: strip a known melee-type suffix.
 // The default skin ("Standard <weapon>" / the melee "Melee") collapses to "Standard".
@@ -100,15 +145,15 @@ function deriveCollection(skinName, weaponName, isMelee) {
     const last = parts[parts.length - 1];
     if (MELEE_TYPE_WORDS.has(last)) {
       const base = parts.slice(0, -1).join(" ").trim();
-      return base || skinName;
+      return consolidateVctBundle(base) || base || skinName;
     }
-    return skinName;
+    return consolidateVctBundle(skinName) || skinName;
   }
   if (skinName.endsWith(weaponName)) {
     const base = skinName.slice(0, skinName.length - weaponName.length).trim();
-    return base || skinName;
+    return consolidateVctBundle(base) || base || skinName;
   }
-  return skinName;
+  return consolidateVctBundle(skinName) || skinName;
 }
 
 // Rarity tier from VP price. Exact match first, then closest-tier fallback.
@@ -240,10 +285,15 @@ export function normalize(raw) {
         collectionName = deriveCollection(skinName, w.displayName, false);
         collectionSlug = slugify(collectionName);
       }
+      const agentGearAgent = AGENT_GEAR[skinName];
+      if (agentGearAgent) {
+        collectionName = "Agent Gear";
+        collectionSlug = "agent-gear";
+      }
       const price = s.price ? s.price[VP_CURRENCY] : null;
-      const tier = tierForPrice(price, isMelee);
+      const tier = agentGearAgent ? null : tierForPrice(price, isMelee);
       const isVct = collectionName.toUpperCase().startsWith("VCT");
-      const isStandard = price == null;
+      const isStandard = price == null && !agentGearAgent;
 
       // Skins with "Standard" in name should not appear as cards
       if (/^standard\b/i.test(skinName)) continue;
@@ -271,13 +321,15 @@ export function normalize(raw) {
         isMelee,
         collectionId: collectionSlug,
         collectionName,
-        tierId: tier.id,
-        tierName: tier.name,
+        tierId: tier ? tier.id : null,
+        tierName: tier ? tier.name : null,
         releaseAct: s.releaseAct ?? null,
         defaultImage,
         price, // null => Standard
         isVct,
         isStandard, // battlepass / default skins (Standard tier)
+        isAgentGear: !!agentGearAgent,
+        agentName: agentGearAgent || null,
         chromas,
         levels,
       };

@@ -32,7 +32,7 @@ export default function Catalog() {
     const merged = { ...state, ...next };
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
-      ["w", "b", "sort", "dir", "rp", "price", "levels", "hvct", "hbp", "hsd", "nm", "rarity", "q", "cols"].forEach((k) =>
+      ["w", "b", "sort", "dir", "rp", "price", "levels", "hvct", "hbp", "hsd", "nm", "hag", "rarity", "q", "cols"].forEach((k) =>
         params.delete(k)
       );
       const search = buildSearch(merged);
@@ -54,9 +54,10 @@ export default function Catalog() {
       if (state.hideBp && s.isStandard) return false;
       if (state.hideSd && (s.tierId === "select" || s.tierId === "deluxe")) return false;
       if (state.hideNm && !isNightMarketEligible(s, { exclusiveUltraCollections: nmExcludedCollections })) return false;
+      if (state.hideAgentGear && s.isAgentGear) return false;
       return true;
     });
-  }, [data, state.hideVct, state.hideBp, state.hideSd, state.hideNm, nmExcludedCollections]);
+  }, [data, state.hideVct, state.hideBp, state.hideSd, state.hideNm, state.hideAgentGear, nmExcludedCollections]);
 
   // Bundles shown in the dropdown = those with at least one non-hidden skin.
   const visibleCollections = useMemo(() => {
@@ -108,7 +109,9 @@ export default function Catalog() {
       case "tier":
         sorted.sort(
           (a, b) =>
-            (TIER_RANK[a.tierId] - TIER_RANK[b.tierId]) * dir || byPrice(a, b) || cmp(a.name, b.name)
+            ((TIER_RANK[a.tierId] ?? 0) - (TIER_RANK[b.tierId] ?? 0)) * dir ||
+            byPrice(a, b) ||
+            cmp(a.name, b.name)
         );
         break;
       case "name":
@@ -133,6 +136,7 @@ export default function Catalog() {
     state.hideBp,
     state.hideSd,
     state.hideNm,
+    state.hideAgentGear,
   ]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));

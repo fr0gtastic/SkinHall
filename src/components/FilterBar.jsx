@@ -384,6 +384,9 @@ export default function FilterBar({
           <HidePill active={state.hideSd} onClick={() => toggleHide("hideSd")}>
             Select &amp; Deluxe
           </HidePill>
+          <HidePill active={state.hideAgentGear} onClick={() => toggleHide("hideAgentGear")}>
+            Agent Gear
+          </HidePill>
           <NmPill active={state.hideNm} onClick={() => toggleHide("hideNm")}>
             Night Market
           </NmPill>
