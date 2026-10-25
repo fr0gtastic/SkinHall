@@ -34,5 +34,5 @@ export const MELEE_COLLECTION_OVERRIDES = {
   // "9A98F7DD-426C-603E-0569-E9B317C25EE4": "vct-lock-in-miserico-rdia", // VCT LOCK//IN Misericórdia // This is from a capsule. It is solo
   "400BB847-4F4F-A39E-CD52-589F00B2204F": "spectrum", // Waveform
   "D034911C-45A6-1CE4-E6F5-4CBE57E9D4F1": "valorant-go-vol-2", // Yoru's Stylish Butterfly Comb
-
+  "A03598B3-4879-3380-EB4C-D6B2D29DD565": "sentinels-of-light", // Relic Stone Daggers
 };

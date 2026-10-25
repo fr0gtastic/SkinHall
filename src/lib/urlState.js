@@ -17,11 +17,11 @@ export function isMobileViewport() {
 }
 
 export function defaultCols() {
-  return isMobileViewport() ? 3 : 5;
+  return isMobileViewport() ? 2 : 5;
 }
 
 export const DEFAULT_COLS = 5;
-export const MIN_COLS = 3;
+export const MIN_COLS = 2;
 export const MAX_COLS = 10;
 
 // Parse a URLSearchParams into the catalog state.
