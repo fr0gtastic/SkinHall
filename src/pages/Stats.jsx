@@ -219,7 +219,8 @@ export default function Stats() {
 
         <details open className="mt-10">
           <summary className="cursor-pointer font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Skins by Weapon</summary>
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-4 rounded-lg border border-border bg-card/40 p-4 v-cut-sm">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
             {Object.entries(
               data.skins.reduce((acc, s) => {
                 if (s.isAgentGear) return acc;
@@ -245,12 +246,13 @@ export default function Stats() {
                 </div>
               ))}
           </div>
+          </div>
         </details>
 
         <details open className="mt-10">
           <summary className="cursor-pointer font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Rarities by Weapon</summary>
-          <div className="mt-4 rounded-lg border border-border bg-card/40 p-5 v-cut-sm">
-          <div className="mt-4 space-y-3">
+          <div className="mt-4 rounded-lg border border-border bg-card/40 p-3 v-cut-sm">
+          <div className="mt-2 space-y-1">
             {Object.entries(
             data.skins.reduce((acc, s) => {
               if (s.isAgentGear) return acc;
@@ -280,20 +282,20 @@ export default function Stats() {
               if (weaponTotal === 0) return null;
               const maxSkins = Math.max(1, ...weaponRows.map((r) => r.skins));
               return (
-                <div key={weapon} className="border-b border-border/40 pb-3 last:border-0 last:pb-0">
-                  <p className="mb-2 font-display text-sm font-semibold text-white">
+                <div key={weapon} className="border-b border-border/40 pb-2 last:border-0 last:pb-0">
+                  <p className="mb-1 font-display text-xs font-semibold text-white">
                     {weapon}{" "}
                     <span className="font-mono text-[10px] text-muted-foreground">
-                      ({weaponTotal} skins)
+                      ({weaponTotal})
                     </span>
                   </p>
-                  <div className="space-y-1">
+                  <div className="space-y-0.5">
                     {weaponRows.map((r) => (
-                      <div key={r.id} className="flex items-center gap-2">
-                        <span className="w-20 font-display text-[11px] uppercase text-foreground/70">
+                      <div key={r.id} className="flex items-center gap-1.5">
+                        <span className="w-16 font-display text-[10px] uppercase text-foreground/70">
                           {r.name}
                         </span>
-                        <div className="h-2 flex-1 overflow-hidden rounded-full bg-border/60">
+                        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-border/60">
                           <div
                             className="h-full rounded-full opacity-70"
                             style={{
@@ -302,8 +304,8 @@ export default function Stats() {
                             }}
                           />
                         </div>
-                        <span className="w-16 text-right font-mono text-[10px] text-muted-foreground">
-                          {r.skins} ({Math.round((r.skins / weaponTotal) * 100)}%)
+                        <span className="w-12 text-right font-mono text-[9px] text-muted-foreground">
+                          {r.skins}
                         </span>
                       </div>
                     ))}
