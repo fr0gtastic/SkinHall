@@ -70,16 +70,18 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
             </p>
           </div>
           {showPrice && skin.agentName ? (
-            <div className="font-mono font-semibold text-sm text-white text-end">
+            <div className="font-mono font-semibold text-sm text-white text-end mt-auto sm:mt-0">
               {skin.agentName}
             </div>
           ) : showPrice && (
-            <PriceTag
-              price={skin.price}
-              radianite={radianite}
-              showRadianite={showRadianite}
-              size="sm"
-            />
+            <div className="mt-auto sm:mt-0">
+              <PriceTag
+                price={skin.price}
+                radianite={radianite}
+                showRadianite={showRadianite}
+                size="sm"
+              />
+            </div>
           )}
         </div>
       </motion.div>
