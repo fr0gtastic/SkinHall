@@ -8,6 +8,7 @@ export default function RarityBadge({ tierId, tierName, size = 12, withLabel = f
       exclusive: "--tier-exclusive",
       ultra: "--tier-ultra",
       standard: "--tier-standard",
+      vct: "--tier-standard",
     })[tierId] || "--tier-standard";
 
   return (
