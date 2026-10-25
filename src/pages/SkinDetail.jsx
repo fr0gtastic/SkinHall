@@ -1,9 +1,9 @@
 // SkinDetail.jsx - the Chroma Chamber: every chroma as a switchable gallery,
 // variant levels as a text list, price + rarity, optional radianite breakdown.
 import { useEffect, useMemo, useState } from "react";
-import { useParams, useSearchParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Layers, ListTree, Tag } from "lucide-react";
+import { ArrowLeft, Layers, ListTree } from "lucide-react";
 import { useCatalog } from "@/lib/useCatalog";
 import { deriveRadianite } from "@/lib/adapters/skinsAdapter";
 import RarityBadge from "@/components/RarityBadge";
@@ -14,8 +14,6 @@ import CopyLinkButton from "@/components/CopyLinkButton";
 export default function SkinDetail() {
   const { id } = useParams();
   const { data, loading } = useCatalog();
-  const [searchParams] = useSearchParams();
-  const showRadianite = searchParams.get("rp") === "1";
   const [activeChroma, setActiveChroma] = useState(0);
 
   const skin = useMemo(
@@ -175,13 +173,13 @@ export default function SkinDetail() {
                     {skin.agentName}
                   </span>
                 ) : (
-                  <PriceTag price={skin.price} radianite={radianite} showRadianite={showRadianite} />
+                  <PriceTag price={skin.price} radianite={radianite} showRadianite />
                 )}
               </div>
             </div>
           </div>
 
-          {showRadianite && <RadianiteBreakdown skin={skin} />}
+          <RadianiteBreakdown skin={skin} />
 
           {/* variant levels (text only - no art in the data) */}
           {skin.levels.length > 0 && (
@@ -213,13 +211,6 @@ export default function SkinDetail() {
               value={Math.max(0, skin.chromas.length - 1)}
             />
           </div>
-
-          {!showRadianite && (
-            <p className="text-[11px] text-muted-foreground">
-              <Tag className="mr-1 inline h-3 w-3 align-text-bottom" />
-              Enable “RP” in the catalog to see Radianite upgrade costs.
-            </p>
-          )}
         </div>
       </div>
     </div>
