@@ -115,6 +115,34 @@ function slugify(s) {
   );
 }
 
+// Normalize a single upgrade level's display name. Level names in the raw
+// data frequently repeat the skin name (e.g. "Reaver Vandal Level 2") or
+// carry flavor text for higher levels. Collapse the skin-name prefix and
+// always fall back to a "Level N" label so the list reads cleanly.
+// Returns { name, description } where description is any trailing text that
+// was not part of the level label (e.g. flavor/upgrade notes).
+function normalizeLevelName(rawName, skinName, index) {
+  const n = (rawName || "").replace(/\s*\n\s*/g, " ").trim();
+  const fallback = `Level ${index + 1}`;
+  if (!n) return { name: fallback, description: "" };
+
+  let base = n;
+  if (skinName && base === skinName) return { name: fallback, description: "" };
+
+  const prefix = skinName ? skinName + " " : "";
+  if (prefix && base.startsWith(prefix)) {
+    const rest = base.slice(prefix.length).trim();
+    if (/^level\s*\d+$/i.test(rest)) return { name: fallback, description: "" };
+    base = rest || fallback;
+  }
+
+  const m = base.match(/^(Level\s*\d+)([\s\S]+)$/i);
+  if (m) {
+    return { name: m[1].replace(/\s+/g, " ").trim(), description: m[2].trim() };
+  }
+  return { name: base, description: "" };
+}
+
 // Reverse of slugify: turn a slug into a display name.
 // Used when an override references a collection that has not been
 // created yet, so we need a fallback display name from the slug itself.
@@ -324,10 +352,10 @@ export function normalize(raw) {
         image: c.displayIcon,
         swatch: c.swatch,
       }));
-      const levels = (s.levels || []).map((l) => ({
-        id: l.id,
-        name: (l.name || "").replace(/\s*\n\s*/g, " ").trim(),
-      }));
+      const levels = (s.levels || []).map((l, i) => {
+        const norm = normalizeLevelName(l.name, skinName, i);
+        return { id: l.id, name: norm.name, description: norm.description };
+      });
 
        const defaultImage =
          (chromas[0] && chromas[0].image) || w.displayIcon || "";

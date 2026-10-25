@@ -187,15 +187,22 @@ export default function SkinDetail() {
               <p className="mb-2 flex items-center gap-1.5 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/80">
                 <ListTree className="h-3.5 w-3.5" /> Upgrade Levels
               </p>
-              <ul className="space-y-1.5">
+              <ul className="space-y-2">
                 {skin.levels.map((l, i) => (
-                  <li key={l.id} className="flex items-baseline gap-2 text-sm">
-                    <span className="font-mono text-[10px] text-muted-foreground">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className={i === 0 ? "text-foreground/90" : "text-foreground/70"}>
-                      {l.name}
-                    </span>
+                  <li key={l.id} className="flex flex-col gap-0.5 text-sm">
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-mono text-[10px] text-muted-foreground">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="font-mono text-xs font-semibold text-foreground">
+                        {l.name}
+                      </span>
+                    </div>
+                    {l.description && (
+                      <span className="ml-7 text-[11px] italic leading-relaxed text-muted-foreground/80">
+                        {l.description}
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>

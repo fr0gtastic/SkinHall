@@ -24,6 +24,36 @@ export default function RadianiteBreakdown({ skin }) {
     </div>
   );
 
+  const rows = [];
+  if (rp.paidLevels > 0) {
+    rows.push(
+      <Row
+        key="levels"
+        icon={<TrendingUp className="h-3.5 w-3.5" />}
+        label={`Levels (${rp.paidLevels} upgrade${rp.paidLevels === 1 ? "" : "s"})`}
+        value={rp.levelCost}
+      />
+    );
+  }
+  if (rp.variantCount > 0) {
+    rows.push(
+      <Row
+        key="variants"
+        icon={<Palette className="h-3.5 w-3.5" />}
+        label={`Variants (${rp.variantCount})`}
+        value={rp.variantCost}
+      />
+    );
+  }
+
+  if (rows.length === 0) {
+    return (
+      <div className="text-sm text-muted-foreground">
+        No Radianite upgrades for this skin.
+      </div>
+    );
+  }
+
   return (
     <div className="rounded-lg border border-border bg-card/60 p-4 v-cut-sm">
       <div className="mb-3 flex items-center gap-2">
@@ -33,16 +63,7 @@ export default function RadianiteBreakdown({ skin }) {
         </h4>
       </div>
       <div className="space-y-0">
-        <Row
-          icon={<TrendingUp className="h-3.5 w-3.5" />}
-          label={`Levels (${rp.paidLevels} upgrade${rp.paidLevels === 1 ? "" : "s"})`}
-          value={rp.levelCost}
-        />
-        <Row
-          icon={<Palette className="h-3.5 w-3.5" />}
-          label={`Variants (${rp.variantCount})`}
-          value={rp.variantCost}
-        />
+        {rows}
       </div>
       <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-3">
         <span className="font-display text-xs uppercase tracking-[0.16em] text-foreground/80">
