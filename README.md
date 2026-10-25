@@ -139,6 +139,7 @@ Run `npm run build`, then serve the `dist/` directory. Ensure your host is confi
 - Skin data and imagery referenced from third-party sources including [Vinfo API](https://vinfo-api.com/).
 - Built with [React](https://react.dev), [Vite](https://vitejs.dev), and [Tailwind CSS](https://tailwindcss.com).
 - UI primitives powered by [Radix UI](https://www.radix-ui.com).
+- Theme acknowledgments: [Catppuccin](https://github.com/catppuccin/catppuccin), [Tokyo Night](https://github.com/enkia/tokyo-night-vscode-theme), [Rosé Pine](https://rosepinetheme.com), and [Dracula](https://draculatheme.com).
 
 ## Disclaimer
 
