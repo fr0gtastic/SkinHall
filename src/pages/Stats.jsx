@@ -20,9 +20,6 @@ export default function Stats() {
   const { data, loading, error } = useCatalog();
 
   const [selected, setSelected] = useState(null);
-  const [showRarity, setShowRarity] = useState(true);
-  const [showRarityWeapon, setShowRarityWeapon] = useState(true);
-  const [showWeapon, setShowWeapon] = useState(true);
 
   const { rows, totals } = useMemo(() => {
     if (!data) return { rows: [], totals: { bundles: 0, skins: 0 } };
