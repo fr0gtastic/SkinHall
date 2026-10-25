@@ -20,6 +20,9 @@ export default function Stats() {
   const { data, loading, error } = useCatalog();
 
   const [selected, setSelected] = useState(null);
+  const [showRarity, setShowRarity] = useState(true);
+  const [showRarityWeapon, setShowRarityWeapon] = useState(true);
+  const [showWeapon, setShowWeapon] = useState(true);
 
   const { rows, totals } = useMemo(() => {
     if (!data) return { rows: [], totals: { bundles: 0, skins: 0 } };
@@ -206,10 +209,111 @@ export default function Stats() {
             );
           })}
         </div>
+        
+        <details open className="mt-6">
+          <summary className="cursor-pointer font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">By Rarity</summary>
+          <div className="mt-2">
+            <StatsSummary tiers={data.tiers} rows={filteredRows} totals={filteredTotals} />
+          </div>
+        </details>
 
-        <div className="mt-6">
-          <StatsSummary tiers={data.tiers} rows={filteredRows} totals={filteredTotals} />
+        <details open className="mt-10">
+          <summary className="cursor-pointer font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Skins by Weapon</summary>
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+            {Object.entries(
+              data.skins.reduce((acc, s) => {
+                if (s.isAgentGear) return acc;
+                if (selected && !selected.has(s.tierId)) return acc;
+                const w = s.weaponName || "Unknown";
+                acc[w] = (acc[w] || 0) + 1;
+                return acc;
+              }, {})
+            )
+              .sort((a, b) => b[1] - a[1])
+              .map(([name, count]) => (
+                <div
+                  key={name}
+                  className="flex items-center justify-between rounded border border-border/60 bg-card/30 px-3 py-2"
+                >
+                  <span className="text-sm text-foreground/80">{name}</span>
+                  <span className="font-mono text-sm font-bold text-white">
+                    {count}{" "}
+                    <span className="text-[10px] text-muted-foreground">
+                      ({filteredTotals.skins ? Math.round((count / filteredTotals.skins) * 100) : 0}%)
+                    </span>
+                  </span>
+                </div>
+              ))}
+          </div>
+        </details>
+
+        <details open className="mt-10">
+          <summary className="cursor-pointer font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Rarities by Weapon</summary>
+          <div className="mt-4 rounded-lg border border-border bg-card/40 p-5 v-cut-sm">
+          <div className="mt-4 space-y-3">
+            {Object.entries(
+            data.skins.reduce((acc, s) => {
+              if (s.isAgentGear) return acc;
+              if (selected && !selected.has(s.tierId)) return acc;
+              const w = s.weaponName || "Unknown";
+              const t = s.tierId;
+              if (!t) return acc;
+              acc[w] = acc[w] || {};
+              acc[w][t] = (acc[w][t] || 0) + 1;
+              return acc;
+            }, {})
+          )
+            .sort((a, b) =>
+              Object.values(b[1]).reduce((x, y) => x + y, 0) -
+              Object.values(a[1]).reduce((x, y) => x + y, 0)
+            )
+            .map(([weapon, rarityCounts]) => {
+              const weaponRows = data.tiers
+                .filter((t) => !selected || selected.has(t.id))
+                .map((t) => ({
+                  id: t.id,
+                  name: t.name,
+                  skins: rarityCounts[t.id] || 0,
+                }))
+                .filter((r) => r.skins > 0);
+              const weaponTotal = weaponRows.reduce((a, r) => a + r.skins, 0);
+              if (weaponTotal === 0) return null;
+              const maxSkins = Math.max(1, ...weaponRows.map((r) => r.skins));
+              return (
+                <div key={weapon} className="border-b border-border/40 pb-3 last:border-0 last:pb-0">
+                  <p className="mb-2 font-display text-sm font-semibold text-white">
+                    {weapon}{" "}
+                    <span className="font-mono text-[10px] text-muted-foreground">
+                      ({weaponTotal} skins)
+                    </span>
+                  </p>
+                  <div className="space-y-1">
+                    {weaponRows.map((r) => (
+                      <div key={r.id} className="flex items-center gap-2">
+                        <span className="w-20 font-display text-[11px] uppercase text-foreground/70">
+                          {r.name}
+                        </span>
+                        <div className="h-2 flex-1 overflow-hidden rounded-full bg-border/60">
+                          <div
+                            className="h-full rounded-full opacity-70"
+                            style={{
+                              width: `${(r.skins / maxSkins) * 100}%`,
+                              backgroundColor: `hsl(var(--tier-${r.id === "vct" ? "standard" : r.id}))`,
+                            }}
+                          />
+                        </div>
+                        <span className="w-16 text-right font-mono text-[10px] text-muted-foreground">
+                          {r.skins} ({Math.round((r.skins / weaponTotal) * 100)}%)
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
         </div>
+        </div>
+        </details>
       </div>
     </div>
   );
