@@ -10,7 +10,7 @@ const THEMES = [
 
 export default function ThemeSelector({ className = "" }) {
   const [active, setActive] = useState(() => {
-    return localStorage.getItem("theme") || "tokyo-night";
+    return localStorage.getItem("theme") || "rose-pine";
   });
 
   useEffect(() => {
