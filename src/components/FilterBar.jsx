@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { SORT_KEYS, MIN_COLS, MAX_COLS } from "@/lib/urlState";
 import { TIERS } from "@/lib/adapters/skinsAdapter";
+import RarityBadge from "@/components/RarityBadge";
 import CopyLinkButton from "@/components/CopyLinkButton";
 
 function Pill({ active, onClick, children }) {
@@ -205,14 +206,27 @@ export default function FilterBar({
                   {filteredCollections.map((c) => (
                     <label
                       key={c.id}
-                      className="flex cursor-pointer items-center gap-2.5 rounded px-2 py-1.5 hover:bg-card/60"
+                      className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 hover:bg-card/60"
                     >
                       <Checkbox
                         checked={collectionActive.has(c.id)}
                         onCheckedChange={() => toggleCollection(c.id)}
                       />
-                      <span className="flex-1 truncate text-sm text-foreground/90">{c.name}</span>
-                      <span className="font-mono text-[10px] text-muted-foreground">{c.count}</span>
+                      <span className="flex items-center gap-1.5">
+                        {c.primaryTier && (
+                          <RarityBadge
+                            tierId={c.primaryTier.id}
+                            tierName={c.primaryTier.name}
+                            size={12}
+                          />
+                        )}
+                        <span className="flex-1 truncate text-sm text-foreground/90">
+                          {c.name}
+                        </span>
+                      </span>
+                      <span className="font-mono text-[10px] text-muted-foreground">
+                        {c.count}
+                      </span>
                     </label>
                   ))}
                   {filteredCollections.length === 0 && (

@@ -396,6 +396,15 @@ export function normalize(raw) {
     }
   }
 
+  // Each collection's primary tier = mode of its member skins' tiers
+  // (Agent Gear members have no tier and are excluded). Reuses modeTierId.
+  for (const entry of collectionMap.values()) {
+    const memberTiers = entry.members
+      .filter((m) => !m.isAgentGear && m.tierId)
+      .map((m) => m.tierId);
+    entry.primaryTier = memberTiers.length ? modeTierId(memberTiers) : null;
+  }
+
   const collections = [...collectionMap.values()].sort((a, b) =>
     a.name.localeCompare(b.name, "en", { sensitivity: "base" })
   );
