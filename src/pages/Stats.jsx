@@ -1,6 +1,6 @@
 // Stats.jsx - the collection statistics page.
 // Total bundles + bundles & skins per rarity. Agent Gear (no rarity) is excluded.
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useCatalog } from "@/lib/useCatalog";
@@ -18,6 +18,8 @@ const TIER_RANK = {
 
 export default function Stats() {
   const { data, loading, error } = useCatalog();
+
+  const [selected, setSelected] = useState(null);
 
   const { rows, totals } = useMemo(() => {
     if (!data) return { rows: [], totals: { bundles: 0, skins: 0 } };
@@ -90,6 +92,21 @@ export default function Stats() {
     };
   }, [data]);
 
+  const filteredRows = selected
+    ? rows.filter((r) => selected.has(r.id))
+    : rows;
+  const filteredTotals = {
+    bundles: filteredRows.reduce((a, r) => a + r.bundles, 0),
+    skins: filteredRows.reduce((a, r) => a + r.skins, 0),
+  };
+
+  const toggleRarity = (id) => {
+    const base = selected ?? new Set(rows.map((r) => r.id));
+    const next = new Set(base);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    setSelected(next);
+  };
   if (loading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3">
@@ -146,7 +163,7 @@ export default function Stats() {
               Total Bundles
             </p>
             <p className="mt-2 font-mono text-4xl font-bold text-white">
-              {totals.bundles}
+              {filteredTotals.bundles}
             </p>
           </div>
           <div className="rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
@@ -154,7 +171,7 @@ export default function Stats() {
               Total Skins
             </p>
             <p className="mt-2 font-mono text-4xl font-bold text-white">
-              {totals.skins}
+              {filteredTotals.skins}
             </p>
           </div>
           <div className="rounded-lg border border-border bg-card/60 p-5 v-cut-sm col-span-2 sm:col-span-1">
@@ -162,13 +179,36 @@ export default function Stats() {
               Rarity Tiers
             </p>
             <p className="mt-2 font-mono text-4xl font-bold text-white">
-              {rows.length}
+              {filteredRows.length}
             </p>
           </div>
         </div>
 
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          {rows.map((r) => {
+            const active = selected ? selected.has(r.id) : true;
+            return (
+              <button
+                key={r.id}
+                onClick={() => toggleRarity(r.id)}
+                className={`v-cut-sm border px-3 py-1.5 font-display text-[12px] uppercase tracking-[0.08em] transition-all duration-150 ${
+                  active
+                    ? "border-primary bg-primary/15 text-primary text-glow-red"
+                    : "border-border bg-card/40 text-foreground/70 hover:border-foreground/40 hover:text-foreground"
+                }`}
+              >
+                <span
+                  className="mr-1.5 inline-block h-2 w-2 rotate-45 rounded-[1px] align-middle"
+                  style={{ backgroundColor: `hsl(var(--tier-${r.id === "vct" ? "standard" : r.id}))` }}
+                />
+                {r.name}
+              </button>
+            );
+          })}
+        </div>
+
         <div className="mt-6">
-          <StatsSummary tiers={data.tiers} rows={rows} totals={totals} />
+          <StatsSummary tiers={data.tiers} rows={filteredRows} totals={filteredTotals} />
         </div>
       </div>
     </div>
