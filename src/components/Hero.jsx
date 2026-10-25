@@ -1,4 +1,7 @@
 // Hero.jsx - the catalog header: eyebrow, heading, count.
+import { Link } from 'react-router-dom';
+import { BarChart3 } from 'lucide-react';
+
 export default function Hero({ count, filtered }) {
   return (
     <header className="relative overflow-hidden border-b border-border/60">
@@ -31,6 +34,15 @@ export default function Hero({ count, filtered }) {
               {filtered.toLocaleString()} shown
             </span>
           )}
+        </div>
+        <div className="mt-6">
+          <Link
+            to="/stats"
+            className="inline-flex items-center gap-2 rounded-md border border-primary/60 bg-primary/10 px-5 py-2.5 font-display text-xs uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+          >
+            <BarChart3 className="h-4 w-4" />
+            View Skin Statistics
+          </Link>
         </div>
       </div>
     </header>

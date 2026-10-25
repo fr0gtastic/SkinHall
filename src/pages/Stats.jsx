@@ -138,7 +138,7 @@ export default function Stats() {
             to="/"
             className="inline-flex items-center gap-2 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/70 transition-colors hover:text-primary"
           >
-            <ArrowLeft className="h-3.5 w-3.5" /> SkinHall
+            <ArrowLeft className="h-3.5 w-3.5" /> Back
           </Link>
         </div>
       </div>
