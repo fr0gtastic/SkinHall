@@ -28,7 +28,7 @@ export default function StatsSummary({ tiers, rows, totals }) {
 
       <div className="divide-y divide-border/50">
         {rows.map((r) => (
-          <div key={r.id} className="grid grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3 sm:px-5">
+          <div key={r.id} className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto] items-center gap-3 px-4 py-3 sm:px-5">
             <div className="flex items-center gap-2.5">
               <RarityBadge tierId={r.id} tierName={r.name} size={14} />
               <span className="font-display text-sm font-semibold text-white">
@@ -37,11 +37,11 @@ export default function StatsSummary({ tiers, rows, totals }) {
             </div>
 
             <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
-                <span className="w-16 font-mono text-[11px] text-muted-foreground">
+              <div className="grid grid-cols-[5rem_1fr] items-center gap-2">
+                <span className="text-right font-mono text-[11px] text-muted-foreground">
                   {r.bundles} bundle{r.bundles === 1 ? "" : "s"}
                 </span>
-                <div className="h-2 flex-1 overflow-hidden rounded-full bg-border/60">
+                <div className="h-2 overflow-hidden rounded-full bg-border/60">
                   <div
                     className="h-full rounded-full"
                     style={{
@@ -51,11 +51,11 @@ export default function StatsSummary({ tiers, rows, totals }) {
                   />
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="w-16 font-mono text-[11px] text-muted-foreground">
+              <div className="grid grid-cols-[5rem_1fr] items-center gap-2">
+                <span className="text-right font-mono text-[11px] text-muted-foreground">
                   {r.skins} skin{r.skins === 1 ? "" : "s"}
                 </span>
-                <div className="h-2 flex-1 overflow-hidden rounded-full bg-border/60">
+                <div className="h-2 overflow-hidden rounded-full bg-border/60">
                   <div
                     className="h-full rounded-full opacity-70"
                     style={{
