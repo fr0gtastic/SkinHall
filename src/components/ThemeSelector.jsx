@@ -21,11 +21,13 @@ export default function ThemeSelector({ className = "" }) {
   }, [active]);
 
   return (
-    <label className={`inline-flex items-center gap-2 ${className}`}>
+    <label className={`inline-flex items-center gap-2 ${className}`} htmlFor="theme-select">
       <span className="text-xs text-muted-foreground">Theme</span>
       <select
+        id="theme-select"
         value={active}
         onChange={(e) => setActive(e.target.value)}
+        aria-label="Theme"
         className="rounded border border-border bg-card px-2 py-1 text-xs text-foreground"
       >
         {THEMES.map((t) => (

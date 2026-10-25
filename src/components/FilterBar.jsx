@@ -2,79 +2,19 @@
 // sort control, radianite toggle, density, search, rarity, category-hide
 // toggles, reset, and share.
 import { useEffect, useMemo, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronDown,
-  X,
-  ArrowUpDown,
-  Search,
-  Layers,
-  Crosshair,
-  EyeOff,
-  Columns3,
-  Gem,
-  Coins,
-  Plus,
-  Minus,
-} from "lucide-react";
+import { ChevronDown, X, ArrowUpDown, Search, Layers, Crosshair, EyeOff, Columns3, Gem, Coins, Plus, Minus } from "lucide-react";
 import { SORT_KEYS, MIN_COLS, MAX_COLS } from "@/lib/urlState";
 import { TIERS } from "@/lib/adapters/skinsAdapter";
 import RarityBadge from "@/components/RarityBadge";
 import CopyLinkButton from "@/components/CopyLinkButton";
-
-function Pill({ active, onClick, children }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`v-cut-sm border px-3 py-1.5 font-display text-[12px] uppercase tracking-[0.08em] transition-all duration-150 ${
-        active
-          ? "border-primary bg-primary/15 text-primary text-glow-red"
-          : "border-border bg-card/40 text-foreground/70 hover:border-foreground/40 hover:text-foreground"
-      }`}
-    >
-      {children}
-    </button>
-  );
-}
-
-// Night Market toggle pill. Active = showing only Night Market-eligible skins.
-function NmPill({ active, onClick, children }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`v-cut-sm flex items-center gap-1.5 border px-2.5 py-1.5 font-display text-[11px] uppercase tracking-[0.08em] transition-all duration-150 ${
-        active
-          ? "border-primary bg-primary/15 text-primary"
-          : "border-border bg-card/40 text-foreground/60 hover:border-foreground/40 hover:text-foreground"
-      }`}
-    >
-      <Coins className="h-3 w-3" />
-      {children}
-    </button>
-  );
-}
-
-// Category-hide toggle pill. Active = hiding (destructive red).
-function HidePill({ active, onClick, children }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`v-cut-sm flex items-center gap-1.5 border px-2.5 py-1.5 font-display text-[11px] uppercase tracking-[0.08em] transition-all duration-150 ${
-        active
-          ? "border-destructive bg-destructive/15 text-destructive"
-          : "border-border bg-card/40 text-foreground/60 hover:border-foreground/40 hover:text-foreground"
-      }`}
-    >
-      <EyeOff className="h-3 w-3" />
-      {children}
-    </button>
-  );
-}
+import { Pill, NmPill, HidePill } from "@/components/filters/Pill";
 
 export default function FilterBar({
   weapons,
@@ -389,19 +329,20 @@ export default function FilterBar({
           <span className="mr-1 hidden items-center gap-1.5 font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:flex">
             Hide
           </span>
-          <HidePill active={state.hideVct} onClick={() => toggleHide("hideVct")}>
+          <HidePill active={state.hideVct} onClick={() => toggleHide("hideVct")} icon={EyeOff}>
             VCT
           </HidePill>
-          <HidePill active={state.hideBp} onClick={() => toggleHide("hideBp")}>
+          <HidePill active={state.hideBp} onClick={() => toggleHide("hideBp")} icon={EyeOff}>
             Battlepass
           </HidePill>
-          <HidePill active={state.hideSd} onClick={() => toggleHide("hideSd")}>
+          <HidePill active={state.hideSd} onClick={() => toggleHide("hideSd")} icon={EyeOff}>
             Select &amp; Deluxe
           </HidePill>
-          <HidePill active={state.hideAgentGear} onClick={() => toggleHide("hideAgentGear")}>
+          <HidePill active={state.hideAgentGear} onClick={() => toggleHide("hideAgentGear")} icon={EyeOff}>
             Agent Gear
           </HidePill>
           <NmPill active={state.hideNm} onClick={() => toggleHide("hideNm")}>
+            <Coins className="h-3 w-3" />
             Night Market
           </NmPill>
 
@@ -416,3 +357,61 @@ export default function FilterBar({
     </div>
   );
 }
+
+Pill.propTypes = {
+  active: PropTypes.bool,
+  onClick: PropTypes.func,
+  children: PropTypes.node,
+};
+
+NmPill.propTypes = {
+  active: PropTypes.bool,
+  onClick: PropTypes.func,
+  children: PropTypes.node,
+};
+
+HidePill.propTypes = {
+  active: PropTypes.bool,
+  onClick: PropTypes.func,
+  children: PropTypes.node,
+  icon: PropTypes.elementType,
+};
+
+FilterBar.propTypes = {
+  weapons: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
+  collections: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      count: PropTypes.number,
+      primaryTier: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+      }),
+    })
+  ),
+  state: PropTypes.shape({
+    weapons: PropTypes.array,
+    collections: PropTypes.array,
+    rarity: PropTypes.array,
+    q: PropTypes.string,
+    sort: PropTypes.shape({ key: PropTypes.string, dir: PropTypes.string }),
+    cols: PropTypes.number,
+    price: PropTypes.bool,
+    levels: PropTypes.bool,
+    rp: PropTypes.bool,
+    hideVct: PropTypes.bool,
+    hideBp: PropTypes.bool,
+    hideSd: PropTypes.bool,
+    hideAgentGear: PropTypes.bool,
+    hideNm: PropTypes.bool,
+  }).isRequired,
+  onChange: PropTypes.func.isRequired,
+  total: PropTypes.number,
+  shown: PropTypes.number,
+};

@@ -1,6 +1,8 @@
 // SkinCard.jsx - a single skin in the catalog grid.
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import RarityBadge from "@/components/RarityBadge";
 import PriceTag from "@/components/PriceTag";
 import { deriveRadianite } from "@/lib/adapters/skinsAdapter";
@@ -9,6 +11,8 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
   const variantCount = Math.max(0, (skin.chromas?.length || 1) - 1);
   const levelCount = (skin.levels?.length || 0) - 1;
   const radianite = deriveRadianite(skin);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   return (
     <Link
@@ -33,24 +37,44 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
 
         {/* render */}
         <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-b from-black/40 to-black/10">
-          <img
-            src={skin.defaultImage}
-            alt={skin.name}
-            loading="lazy"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-300 ease-out group-hover:scale-[1.06]"
-            onError={(e) => {
-              e.currentTarget.style.opacity = "0.15";
-            }}
-          />
+          {!imgError ? (
+            <img
+              src={skin.defaultImage}
+              alt={skin.name}
+              loading="lazy"
+              decoding="async"
+              width={512}
+              height={384}
+              onLoad={() => setImgLoaded(true)}
+              className={`absolute inset-0 h-full w-full object-contain p-3 transition-all duration-300 ease-out group-hover:scale-[1.06] ${
+                imgLoaded ? "opacity-100" : "opacity-0"
+              }`}
+              onError={() => {
+                setImgError(true);
+                setImgLoaded(true);
+              }}
+            />
+          ) : null}
+          {!imgLoaded && !imgError && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="h-10 w-10 animate-pulse rounded-full bg-muted/40" />
+            </div>
+          )}
+          {imgError && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-center">
+              <div className="text-[10px] uppercase tracking-widest text-muted-foreground/70">
+                Image unavailable
+              </div>
+            </div>
+          )}
           {/* variant count chip */}
           {variantCount > 0 && (
-            <span className="absolute left-2 top-2 flex items-center gap-1 bg-background/80 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground/80 backdrop-blur-sm v-cut-sm">
+            <span className="absolute left-2 top-2 z-10 flex items-center gap-1 bg-background/80 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground/80 backdrop-blur-sm v-cut-sm">
               +{variantCount} variant{variantCount === 1 ? "" : "s"}
             </span>
           )}
           {skin.tierId && (
-            <span className="absolute right-2 top-2">
+            <span className="absolute right-2 top-2 z-10">
               <RarityBadge tierId={skin.tierId} tierName={skin.tierName} />
             </span>
           )}
@@ -88,3 +112,21 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
     </Link>
   );
 }
+
+SkinCard.propTypes = {
+  skin: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    weaponName: PropTypes.string,
+    tierId: PropTypes.string,
+    tierName: PropTypes.string,
+    defaultImage: PropTypes.string,
+    agentName: PropTypes.string,
+    price: PropTypes.number,
+    chromas: PropTypes.array,
+    levels: PropTypes.array,
+  }).isRequired,
+  showRadianite: PropTypes.bool,
+  showPrice: PropTypes.bool,
+  showLevels: PropTypes.bool,
+};
