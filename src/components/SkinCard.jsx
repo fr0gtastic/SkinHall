@@ -21,7 +21,7 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="relative h-full v-cut border border-border bg-card overflow-hidden transition-all duration-200 hover:border-primary/70 hover:-translate-y-1 hover:shadow-[0_12px_40px_-12px_rgba(255,70,85,0.35)]"
+        className="relative flex h-full flex-col v-cut border border-border bg-card overflow-hidden transition-all duration-200 hover:border-primary/70 hover:-translate-y-1 hover:shadow-[0_12px_40px_-12px_rgba(255,70,85,0.35)]"
       >
         {/* tier edge accent */}
         {skin.tierId && (
@@ -57,7 +57,7 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
         </div>
 
         {/* meta */}
-        <div className="flex flex-col items-start gap-1 px-3 pb-3 pt-2.5 sm:flex-row sm:items-end sm:justify-between sm:gap-2">
+        <div className="flex flex-1 flex-col items-start gap-1 px-3 pb-3 pt-2.5 sm:flex-row sm:items-end sm:justify-between sm:gap-2">
           <div className="min-w-0">
             <h3 className="break-words font-display text-sm font-semibold text-white sm:truncate">
               {skin.name}
