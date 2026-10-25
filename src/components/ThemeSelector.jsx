@@ -3,11 +3,14 @@ import React, { useState, useEffect } from "react";
 const THEMES = [
   { id: "skinhall-dark", name: "SkinHall Dark" },
   { id: "catppuccin-mocha", name: "Catppuccin Mocha" },
+  { id: "tokyo-night", name: "Tokyo Night" },
+  { id: "rose-pine", name: "Rosé Pine" },
+  { id: "dracula", name: "Dracula" },
 ];
 
 export default function ThemeSelector({ className = "" }) {
   const [active, setActive] = useState(() => {
-    return localStorage.getItem("theme") || "catppuccin-mocha";
+    return localStorage.getItem("theme") || "tokyo-night";
   });
 
   useEffect(() => {
