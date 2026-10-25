@@ -106,27 +106,29 @@ export default function SkinDetail() {
                       key={c.id}
                       onClick={() => setActiveChroma(i)}
                       title={c.name}
-                      className={`group relative flex h-12 w-12 items-center justify-center overflow-hidden border transition-all v-cut-sm ${
+                      className={`group relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-lg border transition-all v-cut-sm ${
                         active
-                          ? "border-primary ring-2 ring-primary/40"
-                          : "border-border hover:border-foreground/40"
+                          ? "border-primary border-2 bg-primary/10 ring-2 ring-primary/50 shadow-[0_0_0_4px_hsl(var(--primary)/15),0_0_18px_-2px_hsl(var(--primary)/60)]"
+                          : "border-border bg-card/40 hover:border-foreground/40"
                       }`}
                     >
-                      {c.swatch ? (
-                        <img
-                          src={c.swatch}
-                          alt={c.name}
-                          loading="lazy"
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <img
-                          src={c.image}
-                          alt={c.name}
-                          loading="lazy"
-                          className="h-full w-full object-cover"
-                        />
-                      )}
+                      <span className="h-12 w-12 overflow-hidden">
+                        {c.swatch ? (
+                          <img
+                            src={c.swatch}
+                            alt={c.name}
+                            loading="lazy"
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <img
+                            src={c.image}
+                            alt={c.name}
+                            loading="lazy"
+                            className="h-full w-full object-cover"
+                          />
+                        )}
+                      </span>
                     </button>
                   );
                 })}
