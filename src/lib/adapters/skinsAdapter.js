@@ -343,6 +343,12 @@ export function normalize(raw) {
       const isVct = collectionName.toUpperCase().startsWith("VCT");
       const isStandard = price == null && !agentGearAgent;
 
+      // VCT team bundles (VCT25/VCT26/...) are their own content category and
+      // carry non-standard VP prices (VCT26 Classic = 1305, which tierForPrice
+      // misreads as Deluxe). Force them to Standard so they never surface under
+      // Deluxe/Premium/etc. filters, matching VCT25's null-price behavior.
+      const tier = isVct ? STANDARD_TIER : rawTier;
+
       // Skins with "Standard" in name should not appear as cards
       if (/^standard\b/i.test(skinName)) continue;
 
@@ -370,8 +376,9 @@ export function normalize(raw) {
         collectionId: collectionSlug,
         collectionName,
         // Default tier from this skin's own VP price (original behavior).
-        tierId: rawTier ? rawTier.id : null,
-        tierName: rawTier ? rawTier.name : null,
+        // VCT skins are forced to Standard regardless (see `tier` above).
+        tierId: tier ? tier.id : null,
+        tierName: tier ? tier.name : null,
         // Price-derived tier kept so melees can inherit their bundle's gun tier below.
         _rawTierId: rawTier ? rawTier.id : null,
         _rawTierName: rawTier ? rawTier.name : null,
