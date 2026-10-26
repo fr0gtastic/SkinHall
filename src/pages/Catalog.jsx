@@ -42,6 +42,10 @@ export default function Catalog() {
     });
   };
 
+  // Full reset: clear every URL param (filters, sort, toggles, search, density)
+  // and restore all filter UI state to defaults. Wired to the logo wordmark.
+  const resetAll = () => setSearchParams({});
+
   // Skins remaining after the category-hide toggles (VCT / Battlepass / Select & Deluxe)
   // and the Night Market eligibility filter. These also govern which bundles appear
   // in the dropdown.
@@ -59,17 +63,26 @@ export default function Catalog() {
     });
   }, [data, state.hideVct, state.hideBp, state.hideSd, state.hideNm, state.hideAgentGear, nmExcludedCollections]);
 
-  // Bundles shown in the dropdown = those with at least one non-hidden skin.
+  // Bundles shown in the dropdown = those with at least one skin that survives
+  // the category-hide toggles AND the active weapon / rarity / search filters.
+  // The collection (b) filter itself is excluded so selecting a bundle does not
+  // collapse the dropdown to a single option.
   const visibleCollections = useMemo(() => {
     if (!data) return [];
+    const wSet = state.weapons.length ? new Set(state.weapons) : null;
+    const rSet = state.rarity.length ? new Set(state.rarity) : null;
+    const q = state.q.trim().toLowerCase();
     const counts = new Map();
     for (const s of hideFiltered) {
+      if (wSet && !wSet.has(s.weaponId)) continue;
+      if (rSet && !rSet.has(s.tierId)) continue;
+      if (q && !s.name.toLowerCase().includes(q)) continue;
       counts.set(s.collectionId, (counts.get(s.collectionId) || 0) + 1);
     }
     return data.collections
       .filter((c) => counts.has(c.id))
       .map((c) => ({ ...c, count: counts.get(c.id) }));
-  }, [data, hideFiltered]);
+  }, [data, hideFiltered, state.weapons, state.rarity, state.q]);
 
   const filtered = useMemo(() => {
     if (!data) return [];
@@ -171,7 +184,7 @@ export default function Catalog() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Hero count={data.skins.length} filtered={filtered.length} />
+      <Hero count={data.skins.length} filtered={filtered.length} onReset={resetAll} />
       <FilterBar
         weapons={data.weapons}
         collections={visibleCollections}

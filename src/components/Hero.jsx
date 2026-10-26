@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import { BarChart3 } from 'lucide-react';
 
-export default function Hero({ count, filtered }) {
+export default function Hero({ count, filtered, onReset }) {
   return (
     <header className="relative overflow-hidden border-b border-border/60">
       {/* atmospheric backdrop */}
@@ -17,7 +17,13 @@ export default function Hero({ count, filtered }) {
         </p>
         <h1 className="mt-4 font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight text-white sm:text-6xl">
           VALORANT
-          <span className="block text-primary text-glow-red">SkinHall</span>
+          <button
+            type="button"
+            onClick={onReset}
+            className="block text-primary text-glow-red cursor-pointer border-0 bg-transparent p-0 hover:opacity-80"
+          >
+            SkinHall
+          </button>
         </h1>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
           Every skin across {21} weapons, with every chroma and variant as first-class
