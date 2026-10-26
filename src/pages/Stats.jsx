@@ -47,8 +47,10 @@ export default function Stats() {
     let vctBundles = 0;
     for (const c of data.collections) {
       if (c.id === AGENT_GEAR_SLUG) continue;
+      const nonAgentMembers = (c.members || []).filter((m) => !m.isAgentGear);
+      if (nonAgentMembers.length === 0) continue;
       totalBundles += 1;
-      totalSkins += c.count || 0;
+      totalSkins += nonAgentMembers.length;
 
       const isVct = c.name && c.name.toUpperCase().startsWith("VCT");
       if (isVct) {
@@ -56,8 +58,8 @@ export default function Stats() {
         continue;
       }
 
-      const tiers = (c.members || [])
-        .filter((m) => !m.isAgentGear && m.tierId)
+      const tiers = nonAgentMembers
+        .filter((m) => m.tierId)
         .map((m) => m.tierId);
       if (tiers.length === 0) continue;
 
