@@ -22,7 +22,7 @@ export default function Hero({ count, filtered, onReset }) {
             onClick={onReset}
             className="block text-primary text-glow-red cursor-pointer border-0 bg-transparent p-0 hover:opacity-80"
           >
-            SkinHall
+            SKINHALL
           </button>
         </h1>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
