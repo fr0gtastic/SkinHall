@@ -1,29 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/img/(.*)",
-      "dest": "https://vinfo-api.com/$1",
-      "transforms": [
-        { "type": "request.headers", "op": "delete", "target": { "key": "x-forwarded-for" } },
-        { "type": "request.headers", "op": "delete", "target": { "key": "x-real-ip" } },
-        { "type": "request.headers", "op": "delete", "target": { "key": "x-vercel-forwarded-for" } },
-        { "type": "request.headers", "op": "delete", "target": { "key": "true-client-ip" } },
-        {
-          "type": "response.headers",
-          "op": "set",
-          "target": { "key": "cache-control" },
-          "args": "public, max-age=86400, s-maxage=604800"
-        },
-        {
-          "type": "response.headers",
-          "op": "set",
-          "target": { "key": "cdn-cache-control" },
-          "args": "public, max-age=604800"
-        }
-      ]
+      "source": "/img/:path*",
+      "destination": "/api/img?path=:path*"
     },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "source": "/((?!api/|data/|assets/|img/|.*\\..*).*)",
+      "destination": "/index.html"
+    }
   ]
 }
