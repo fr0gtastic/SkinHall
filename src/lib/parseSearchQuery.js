@@ -49,12 +49,28 @@ export function parseSearchQuery(input) {
       result.sort = SORT_MAP[tok];
       continue;
     }
-    const rarity = RARITY_NAMES.find((n) => n.toLowerCase() === tok);
+    let rarity = RARITY_NAMES.find((n) => n.toLowerCase() === tok);
+    if (!rarity) {
+      const matches = RARITY_NAMES.filter((n) => n.toLowerCase().startsWith(tok));
+      if (matches.length === 1) rarity = matches[0];
+      else if (matches.length > 1) {
+        // tiebreak: prefer shortest name (canonical), e.g. "select" over "select edition"
+        rarity = matches.slice().sort((a, b) => a.length - b.length)[0];
+      }
+    }
     if (rarity) {
       result.rarity = rarity;
       continue;
     }
-    const weapon = WEAPON_NAMES.find((n) => n.toLowerCase() === tok);
+    let weapon = WEAPON_NAMES.find((n) => n.toLowerCase() === tok);
+    if (!weapon) {
+      const matches = WEAPON_NAMES.filter((n) => n.toLowerCase().startsWith(tok));
+      if (matches.length === 1) weapon = matches[0];
+      else if (matches.length > 1) {
+        // tiebreak: prefer shortest name (canonical)
+        weapon = matches.slice().sort((a, b) => a.length - b.length)[0];
+      }
+    }
     if (weapon) {
       result.weaponType = weapon;
       continue;
