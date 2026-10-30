@@ -16,6 +16,7 @@ function tierIdOf(bundle) {
 
 function tierRank(bundle) {
   const id = tierIdOf(bundle);
+  if (id === "standard") return -1;
   if (id == null) return TIER_RANK.size;
   if (TIER_RANK.has(id)) return TIER_RANK.get(id);
   // fall back: match by name
