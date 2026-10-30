@@ -18,15 +18,23 @@ describe('security headers in vercel.json', () => {
   });
 
   it.each([
-    ['Content-Security-Policy', "frame-ancestors 'self'"],
+    ['Content-Security-Policy', "frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"],
     ['X-Frame-Options', 'SAMEORIGIN'],
     ['X-Content-Type-Options', 'nosniff'],
     ['Referrer-Policy', 'strict-origin-when-cross-origin'],
+    ['Permissions-Policy', 'camera=(), microphone=(), geolocation=()'],
   ])('sets %s', (key, value) => {
     const headers = globalHeaders();
     const found = headers.find((h) => h.key === key);
     expect(found).toBeDefined();
     expect(found.value).toBe(value);
+  });
+
+  it('does not restrict clipboard-write (relies on spec default of self)', () => {
+    const headers = globalHeaders();
+    const pp = headers.find((h) => h.key === 'Permissions-Policy');
+    expect(pp).toBeDefined();
+    expect(pp.value).not.toMatch(/clipboard/i);
   });
 
   it('does not alter the platform-managed HSTS header', () => {
