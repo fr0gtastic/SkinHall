@@ -1,6 +1,7 @@
 // Hero.jsx - the catalog header: eyebrow, heading, count.
 import { Link } from 'react-router-dom';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, Search } from 'lucide-react';
+import { isMac } from '@/lib/platform';
 
 export default function Hero({ count, filtered, onReset }) {
   return (
@@ -49,6 +50,13 @@ export default function Hero({ count, filtered, onReset }) {
             <BarChart3 className="h-4 w-4" />
             View Skin Statistics
           </Link>
+        </div>
+        <div className="mt-3 inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/5 px-3 py-1.5 text-xs text-primary">
+          <Search className="h-3.5 w-3.5" />
+          <span>Smart search:</span>
+          <kbd className="rounded border border-primary/60 bg-primary/10 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-primary">
+            {isMac() ? "Cmd+K" : "Ctrl+K"}
+          </kbd>
         </div>
       </div>
     </header>

@@ -16,7 +16,6 @@ import RarityBadge from "@/components/RarityBadge";
 import CopyLinkButton from "@/components/CopyLinkButton";
 import { Pill, NmPill, HidePill } from "@/components/filters/Pill";
 import { sortBundles } from "@/lib/bundleSort";
-import { isMac } from "@/lib/platform";
 
 export default function FilterBar({
   weapons,
@@ -311,13 +310,8 @@ export default function FilterBar({
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search skin name…"
-              className="border-border bg-card/50 py-1.5 pl-8 pr-16 text-sm"
+              className="border-border bg-card/50 py-1.5 pl-8 text-sm"
             />
-            <kbd
-              className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded border border-border bg-card/60 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground"
-            >
-              {isMac() ? "Cmd+K" : "Ctrl+K"}
-            </kbd>
           </div>
 
           {/* rarity */}
