@@ -33,8 +33,5 @@ dist-ssr
 .kilo
 TODO.md
 AGENTS.md
-.pi/worktrees/
-.pi/superpowers-state.json
-.pi/superpowers-state.json
-.pi/settings.json
-.pi/npm/
+
+.pi/
