@@ -38,7 +38,7 @@ export function sortBundles(bundles, { byRarity } = {}) {
   }
 
   list.sort((a, b) => {
-    const r = tierRank(a) - tierRank(b);
+    const r = tierRank(b) - tierRank(a);
     if (r !== 0) return r;
     return cmpName(a, b);
   });
