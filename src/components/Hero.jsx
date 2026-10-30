@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { BarChart3, Search } from 'lucide-react';
 import { isMac } from '@/lib/platform';
 
-export default function Hero({ count, filtered, onReset }) {
+export default function Hero({ count, filtered, onReset, onSearch }) {
   return (
     <header className="relative overflow-hidden border-b border-border/60">
       {/* atmospheric backdrop */}
@@ -51,13 +51,21 @@ export default function Hero({ count, filtered, onReset }) {
             View Skin Statistics
           </Link>
         </div>
-        <div className="mt-3 inline-flex items-center gap-2 v-cut-sm border border-primary/60 bg-primary/10 px-3 py-1.5 font-display text-[11px] uppercase tracking-[0.18em] text-primary">
+        <div className="mt-3 hidden items-center gap-2 v-cut-sm border border-primary/60 bg-primary/10 px-3 py-1.5 font-display text-[11px] uppercase tracking-[0.18em] text-primary sm:inline-flex">
           <Search className="h-3.5 w-3.5" />
           <span>Smart search</span>
           <kbd className="rounded border border-primary/60 bg-primary/15 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-primary">
             {isMac() ? "Cmd+K" : "Ctrl+K"}
           </kbd>
         </div>
+        <button
+          type="button"
+          onClick={onSearch}
+          className="mt-3 inline-flex items-center gap-2 v-cut-sm border border-primary/60 bg-primary/10 px-3 py-1.5 font-display text-[11px] uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground sm:hidden"
+        >
+          <Search className="h-3.5 w-3.5" />
+          <span>Smart search</span>
+        </button>
       </div>
     </header>
   );

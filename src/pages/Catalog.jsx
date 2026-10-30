@@ -25,6 +25,7 @@ export default function Catalog() {
   const { data, loading, error } = useCatalog();
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const state = useMemo(() => parseState(searchParams), [searchParams]);
 
@@ -185,7 +186,7 @@ export default function Catalog() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Hero count={data.skins.length} filtered={filtered.length} onReset={resetAll} />
+      <Hero count={data.skins.length} filtered={filtered.length} onReset={resetAll} onSearch={() => setSearchOpen(true)} />
       <FilterBar
         weapons={data.weapons}
         collections={visibleCollections}
@@ -194,7 +195,7 @@ export default function Catalog() {
         total={data.skins.length}
         shown={filtered.length}
       />
-      <SearchPopup onChange={updateState} />
+      <SearchPopup onChange={updateState} open={searchOpen} onOpenChange={setSearchOpen} />
 
       <div className="mx-auto max-w-[1600px] px-5 pt-6 sm:px-8 sm:pt-8">
         <Pagination

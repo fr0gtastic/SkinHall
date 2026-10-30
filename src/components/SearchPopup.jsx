@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { parseSearchQuery, toFilterParams } from "@/lib/parseSearchQuery";
 import { Input } from "@/components/ui/input";
 
-export default function SearchPopup({ onChange }) {
-  const [open, setOpen] = useState(false);
+export default function SearchPopup({ onChange, open: controlledOpen, onOpenChange }) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const setOpen = (v) => { if (controlledOpen !== undefined) onOpenChange?.(v); else setInternalOpen(v); };
   const [value, setValue] = useState("");
   const parsed = parseSearchQuery(value);
 
