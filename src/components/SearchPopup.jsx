@@ -1,0 +1,54 @@
+import { useEffect, useState } from "react";
+import { parseSearchQuery } from "@/lib/parseSearchQuery";
+import { Input } from "@/components/ui/input";
+
+export default function SearchPopup({ onChange }) {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const parsed = parseSearchQuery(value);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setOpen(true);
+      }
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
+  if (!open) return null;
+
+  const apply = () => {
+    const patch = {};
+    if (parsed.rarity) patch.rarity = [parsed.rarity.toLowerCase()];
+    if (parsed.weaponType) patch.weapons = [parsed.weaponType];
+    if (parsed.sort) {
+      patch.sort = parsed.sort === "price_asc" ? { key: "price", dir: "asc" } : { key: "price", dir: "desc" };
+    }
+    onChange?.(patch);
+    setOpen(false);
+    setValue("");
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 pt-20">
+      <div className="w-full max-w-md rounded border bg-background p-4">
+        <Input
+          autoFocus
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter") apply(); }}
+          placeholder="Search filters…"
+        />
+        <div className="mt-2 flex gap-2 text-sm">
+          {parsed.rarity && <span className="rounded bg-muted px-2 py-1">{parsed.rarity}</span>}
+          {parsed.weaponType && <span className="rounded bg-muted px-2 py-1">{parsed.weaponType}</span>}
+          {parsed.sort && <span className="rounded bg-muted px-2 py-1">{parsed.sort}</span>}
+        </div>
+      </div>
+    </div>
+  );
+}

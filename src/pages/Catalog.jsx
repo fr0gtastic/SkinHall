@@ -6,6 +6,7 @@ import { parseState, buildSearch } from "@/lib/urlState";
 import { isNightMarketEligible, exclusiveUltraCollectionIds } from "@/lib/nightMarket";
 import Hero from "@/components/Hero";
 import FilterBar from "@/components/FilterBar";
+import SearchPopup from "@/components/SearchPopup";
 import SkinCard from "@/components/SkinCard";
 import Pagination from "@/components/Pagination";
 
@@ -193,6 +194,7 @@ export default function Catalog() {
         total={data.skins.length}
         shown={filtered.length}
       />
+      <SearchPopup onChange={updateState} />
 
       <div className="mx-auto max-w-[1600px] px-5 pt-6 sm:px-8 sm:pt-8">
         <Pagination
