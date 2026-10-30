@@ -40,7 +40,7 @@ export default function SearchPopup({ onChange }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 pt-20">
-      <div className="w-full max-w-md rounded border bg-background p-4">
+      <div className="w-full max-w-md rounded-md border border-border bg-card/95 p-4 backdrop-blur-xl">
         <Input
           autoFocus
           value={value}
