@@ -51,10 +51,10 @@ export default function Hero({ count, filtered, onReset }) {
             View Skin Statistics
           </Link>
         </div>
-        <div className="mt-3 inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/5 px-3 py-1.5 text-xs text-primary">
+        <div className="mt-3 inline-flex items-center gap-2 v-cut-sm border border-primary/60 bg-primary/10 px-3 py-1.5 font-display text-[11px] uppercase tracking-[0.18em] text-primary">
           <Search className="h-3.5 w-3.5" />
-          <span>Smart search:</span>
-          <kbd className="rounded border border-primary/60 bg-primary/10 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-primary">
+          <span>Smart search</span>
+          <kbd className="rounded border border-primary/60 bg-primary/15 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-primary">
             {isMac() ? "Cmd+K" : "Ctrl+K"}
           </kbd>
         </div>
