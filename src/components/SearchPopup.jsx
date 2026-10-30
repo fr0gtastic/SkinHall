@@ -46,7 +46,7 @@ export default function SearchPopup({ onChange }) {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") apply(); }}
-          placeholder="Search filters…"
+          placeholder="Search filters..."
         />
         <div className="mt-2 flex gap-2 text-sm">
           {parsed.rarity && <span className="rounded bg-muted px-2 py-1">{parsed.rarity}</span>}

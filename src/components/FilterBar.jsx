@@ -138,7 +138,7 @@ export default function FilterBar({
                   <Input
                     value={bundleQuery}
                     onChange={(e) => setBundleQuery(e.target.value)}
-                    placeholder="Search bundles…"
+                    placeholder="Search bundles..."
                     className="border-transparent bg-card/50 pl-8 text-sm"
                   />
                 </div>
@@ -309,7 +309,7 @@ export default function FilterBar({
             <Input
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Search skin name…"
+              placeholder="Search skin name..."
               className="border-border bg-card/50 py-1.5 pl-8 text-sm"
             />
           </div>

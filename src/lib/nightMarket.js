@@ -32,7 +32,7 @@ export const GUN_CATEGORIES = new Set([
 
 // Current act in which the Night Market is "opened". Skins must have been
 // released at least two acts before this. Set to null (default) so the
-// act-recency gate only excludes skins whose releaseAct is known — the
+// act-recency gate only excludes skins whose releaseAct is known - the
 // static snapshot carries no per-skin release data today.
 export const NIGHT_MARKET_CURRENT_ACT = null;
 
