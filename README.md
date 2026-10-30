@@ -89,7 +89,7 @@ This project has no environment variables or secrets. All configuration is file-
 
 ### Data Format
 
-Each entry in `public/data/skins.json` should include the fields consumed by the adapters in `src/lib/adapters/skinsAdapter.js`. Refer to that file for the canonical mapping. Skin images are loaded from the third-party host `vinfo-api.com` referenced within the JSON.
+Each entry in `public/data/skins.json` should include the fields consumed by the adapters in `src/lib/adapters/skinsAdapter.js`. Refer to that file for the canonical mapping. Skin images are served through a [Cloudflare Worker proxy](https://github.com/fr0gtastic/skinhall-img) that forwards to `vinfo-api.com`. The Worker hides visitor IPs from the upstream host and caches images at Cloudflare's edge. All image URLs in `skins.json` therefore point at the Worker, not vinfo directly.
 
 ## Project Structure
 
