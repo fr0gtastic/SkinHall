@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { parseSearchQuery } from "@/lib/parseSearchQuery";
+import { parseSearchQuery, toFilterParams } from "@/lib/parseSearchQuery";
 import { Input } from "@/components/ui/input";
 
 export default function SearchPopup({ onChange }) {
@@ -22,12 +22,17 @@ export default function SearchPopup({ onChange }) {
   if (!open) return null;
 
   const apply = () => {
-    const patch = {};
-    if (parsed.rarity) patch.rarity = [parsed.rarity.toLowerCase()];
-    if (parsed.weaponType) patch.weapons = [parsed.weaponType];
-    if (parsed.sort) {
-      patch.sort = parsed.sort === "price_asc" ? { key: "price", dir: "asc" } : { key: "price", dir: "desc" };
+    if (!parsed || Object.keys(parsed).length === 0) {
+      onChange?.({});
+      setOpen(false);
+      setValue("");
+      return;
     }
+    const fp = toFilterParams(parsed);
+    const patch = {};
+    if (fp.rarity) patch.rarity = [fp.rarity];
+    if (fp.w) patch.weapons = [fp.w];
+    if (fp.sort) patch.sort = { key: fp.sort, dir: fp.dir };
     onChange?.(patch);
     setOpen(false);
     setValue("");
