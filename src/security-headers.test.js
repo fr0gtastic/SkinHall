@@ -22,19 +22,12 @@ describe('security headers in vercel.json', () => {
     ['X-Frame-Options', 'SAMEORIGIN'],
     ['X-Content-Type-Options', 'nosniff'],
     ['Referrer-Policy', 'strict-origin-when-cross-origin'],
-    ['Permissions-Policy', 'camera=(), microphone=(), geolocation=()'],
+    ['Permissions-Policy', 'accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), bluetooth=(), camera=(), clipboard-write=(self), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()'],
   ])('sets %s', (key, value) => {
     const headers = globalHeaders();
     const found = headers.find((h) => h.key === key);
     expect(found).toBeDefined();
     expect(found.value).toBe(value);
-  });
-
-  it('does not restrict clipboard-write (relies on spec default of self)', () => {
-    const headers = globalHeaders();
-    const pp = headers.find((h) => h.key === 'Permissions-Policy');
-    expect(pp).toBeDefined();
-    expect(pp.value).not.toMatch(/clipboard/i);
   });
 
   it('does not alter the platform-managed HSTS header', () => {
