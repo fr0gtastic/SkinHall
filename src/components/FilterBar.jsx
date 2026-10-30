@@ -15,6 +15,7 @@ import { TIERS } from "@/lib/adapters/skinsAdapter";
 import RarityBadge from "@/components/RarityBadge";
 import CopyLinkButton from "@/components/CopyLinkButton";
 import { Pill, NmPill, HidePill } from "@/components/filters/Pill";
+import { sortBundles } from "@/lib/bundleSort";
 
 export default function FilterBar({
   weapons,
@@ -26,6 +27,7 @@ export default function FilterBar({
 }) {
   const [bundleOpen, setBundleOpen] = useState(false);
   const [bundleQuery, setBundleQuery] = useState("");
+  const [sortBundlesByRarity, setSortBundlesByRarity] = useState(false);
   const [searchInput, setSearchInput] = useState(state.q);
   const debounceRef = useRef(null);
 
@@ -77,9 +79,9 @@ export default function FilterBar({
 
   const filteredCollections = useMemo(() => {
     const q = bundleQuery.trim().toLowerCase();
-    if (!q) return collections;
-    return collections.filter((c) => c.name.toLowerCase().includes(q));
-  }, [collections, bundleQuery]);
+    const base = q ? collections.filter((c) => c.name.toLowerCase().includes(q)) : collections;
+    return sortBundles(base, { byRarity: sortBundlesByRarity });
+  }, [collections, bundleQuery, sortBundlesByRarity]);
 
   const hasFilters =
     state.weapons.length ||
@@ -141,6 +143,14 @@ export default function FilterBar({
                   />
                 </div>
               </div>
+              <label className="flex cursor-pointer select-none items-center gap-2 border-b border-border px-3 py-2">
+                <input
+                  type="checkbox"
+                  checked={sortBundlesByRarity}
+                  onChange={(e) => setSortBundlesByRarity(e.target.checked)}
+                />
+                <span className="text-xs text-foreground/80">Sort by rarity</span>
+              </label>
               <ScrollArea className="h-[280px]">
                 <div className="p-1">
                   {filteredCollections.map((c) => (
