@@ -133,7 +133,7 @@ export default function Guide() {
             <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">URL state / deep links</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Every filter, sort, toggle, search term, and grid density lives in the URL. Share a link and the recipient sees the exact same view.</p>
             <p className="mt-3 text-xs text-muted-foreground">Exclusive skins sorted by price ascending</p>
-            <div className="mt-auto flex items-center gap-2 pt-3">
+            <div className="mt-auto flex flex-col gap-2 pt-3 md:flex-row md:items-center">
               <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">{spacedAmps("/?rarity=exclusive&sort=price&dir=asc")}</code>
               <Link to="/?rarity=exclusive&sort=price&dir=asc" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
                 Open
@@ -220,7 +220,7 @@ export default function Guide() {
           <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
             <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Sort options</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Sort by name, price, bundle, weapon, or tier, ascending or descending.</p>
-            <div className="mt-3 flex items-center gap-1">
+            <div className="mt-3 flex flex-wrap items-center gap-1">
               <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground" />
               {SORT_KEYS.map((sk) => (
                 <button

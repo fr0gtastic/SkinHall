@@ -5,7 +5,9 @@ import { Link2, Check } from "lucide-react";
 export default function CopyLinkButton({ className = "", text }) {
   const [copied, setCopied] = useState(false);
 
-  const value = text || window.location.href;
+  const value = text
+    ? (text.startsWith("/") ? `${window.location.origin}${text}` : text)
+    : window.location.href;
 
   const copy = async () => {
     try {
