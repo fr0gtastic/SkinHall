@@ -27,7 +27,7 @@ git add -A >/dev/null 2>&1 || true
 STAT=$(git diff --numstat "$BASE")
 ADD=$(echo "$STAT" | awk '$1 ~ /^[0-9]+$/ {a+=$1} END {print a+0}')
 DEL=$(echo "$STAT" | awk '$2 ~ /^[0-9]+$/ {d+=$2} END {print d+0}')
-FILES=$(echo "$STAT" | grep -c . 2>/dev/null || echo 0)
+FILES=$(echo "$STAT" | awk 'NF{c++} END{print c+0}')
 TOTAL=$((ADD + DEL))
 
 echo "branch: $BRANCH  vs  $BASE"
