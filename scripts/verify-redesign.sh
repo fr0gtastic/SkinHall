@@ -40,6 +40,13 @@ FAIL=0
 echo "$STAT" | grep -q 'tailwind\.config\.js' || { echo "FAIL: tailwind.config.js not modified" >&2; FAIL=1; }
 echo "$STAT" | grep -qE 'src/style\.css|src/App\.(jsx?|tsx?)|src/index\.css|src/components/' || { echo "FAIL: no src changes" >&2; FAIL=1; }
 
+if [ "$FAIL" -eq 0 ]; then
+  if ! ./scripts/check-no-padding.sh 5; then
+    echo "FAIL: CSS padding detected" >&2
+    FAIL=1
+  fi
+fi
+
 [ "$FAIL" -ne 0 ] && exit 1
 echo "PASS"
 exit 0
