@@ -42,6 +42,11 @@ function Card({ title, desc, example }) {
   );
 }
 
+function spacedAmps(text) {
+  return String(text).split("&").reduce((acc, part, i) =>
+    i === 0 ? [part] : [...acc, <span key={i} className="mx-1">&</span>, part], []);
+}
+
 function Section({ title, children }) {
   return (
     <section className="mt-10">
@@ -52,13 +57,15 @@ function Section({ title, children }) {
 }
 
 export default function Guide() {
-  const [hides, setHides] = useState({ vct: false, bp: false, sd: false, ag: false, nm: false });
+  const [hides, setHides] = useState({ vct: false, bp: false, sd: false, ag: true, nm: true });
   const toggleHide = (key) => setHides((h) => ({ ...h, [key]: !h[key] }));
+  const hideCode = [hides.vct && "hvct=1", hides.bp && "hbp=1", hides.sd && "hsd=1", hides.ag && "hag=1"].filter(Boolean).join("&");
   const [cols, setCols] = useState(4);
   const [sortKey, setSortKey] = useState("name");
   const [sortDir, setSortDir] = useState("asc");
   const [disp, setDisp] = useState({ price: true, levels: false, rp: true });
   const toggleDisp = (k) => setDisp((d) => ({ ...d, [k]: !d[k] }));
+  const dispCode = `price=${disp.price ? 1 : 0}&levels=${disp.levels ? 1 : 0}&rp=${disp.rp ? 1 : 0}`;
   const setSort = (key) => {
     if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
     else { setSortKey(key); setSortDir("asc"); }
@@ -126,7 +133,7 @@ export default function Guide() {
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Every filter, sort, toggle, search term, and grid density lives in the URL. Share a link and the recipient sees the exact same view.</p>
             <p className="mt-3 text-xs text-muted-foreground">Exclusive skins sorted by price ascending</p>
             <div className="mt-auto flex items-center gap-2 pt-3">
-              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">/?rarity=exclusive&sort=price&dir=asc</code>
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">{spacedAmps("/?rarity=exclusive&sort=price&dir=asc")}</code>
               <Link to="/?rarity=exclusive&sort=price&dir=asc" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
                 Open
               </Link>
@@ -164,8 +171,8 @@ export default function Guide() {
               </NmPill>
             </div>
             <div className="mt-auto flex items-center gap-2 pt-3">
-              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">nm=1</code>
-              <Link to="/?nm=1" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">{hides.nm ? "nm=1" : "nm=0"}</code>
+              <Link to={hides.nm ? "/?nm=1" : "/?nm=0"} className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
                 Open
               </Link>
             </div>
@@ -174,26 +181,14 @@ export default function Guide() {
             <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Hide toggles</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Four hide pills: VCT, Battle Pass/Standard, Select &amp; Deluxe, Agent Gear. Each persists in the URL. Any combination works.</p>
             <div className="mt-3 flex flex-wrap items-center gap-2">
-              <HidePill active={true} onClick={() => {}} icon={EyeOff}>VCT</HidePill>
-              <HidePill active={true} onClick={() => {}} icon={EyeOff}>Battle Pass</HidePill>
-              <HidePill active={false} onClick={() => {}} icon={EyeOff}>Select &amp; Deluxe</HidePill>
-              <HidePill active={false} onClick={() => {}} icon={EyeOff}>Agent Gear</HidePill>
-            </div>
-            <div className="mt-2 flex items-center gap-2">
-              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">hvct=1&hbp=1</code>
-              <Link to="/?hvct=1&hbp=1" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
-                Open
-              </Link>
-            </div>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <HidePill active={false} onClick={() => {}} icon={EyeOff}>VCT</HidePill>
-              <HidePill active={false} onClick={() => {}} icon={EyeOff}>Battle Pass</HidePill>
-              <HidePill active={true} onClick={() => {}} icon={EyeOff}>Select &amp; Deluxe</HidePill>
-              <HidePill active={true} onClick={() => {}} icon={EyeOff}>Agent Gear</HidePill>
+              <HidePill active={hides.vct} onClick={() => toggleHide("vct")} icon={EyeOff}>VCT</HidePill>
+              <HidePill active={hides.bp} onClick={() => toggleHide("bp")} icon={EyeOff}>Battle Pass</HidePill>
+              <HidePill active={hides.sd} onClick={() => toggleHide("sd")} icon={EyeOff}>Select &amp; Deluxe</HidePill>
+              <HidePill active={hides.ag} onClick={() => toggleHide("ag")} icon={EyeOff}>Agent Gear</HidePill>
             </div>
             <div className="mt-auto flex items-center gap-2 pt-2">
-              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">hsd=1&hag=1</code>
-              <Link to="/?hsd=1&hag=1" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">{spacedAmps(hideCode || "(none)")}</code>
+              <Link to={hideCode ? `/?${hideCode}` : "/"} className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
                 Open
               </Link>
             </div>
@@ -214,8 +209,8 @@ export default function Guide() {
               </button>
             </div>
             <div className="mt-auto flex items-center gap-2 pt-3">
-              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">cols=4</code>
-              <Link to="/?cols=4" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">cols={cols}</code>
+              <Link to={`/?cols=${cols}`} className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
                 Open
               </Link>
             </div>
@@ -239,15 +234,15 @@ export default function Guide() {
               ))}
             </div>
             <div className="mt-auto flex items-center gap-2 pt-3">
-              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">sort=price&dir=asc</code>
-              <Link to="/?sort=price&dir=asc" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">{spacedAmps(`sort=${sortKey}&dir=${sortDir}`)}</code>
+              <Link to={`/?sort=${sortKey}&dir=${sortDir}`} className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
                 Open
               </Link>
             </div>
           </div>
           <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
             <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Per-skin detail pages</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">/skin/:id shows pricing, rarity, and the Radianite upgrade breakdown. Shareable.</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">/skin/:id shows pricing, rarity, variants, and the Radianite upgrades breakdown.</p>
             <div className="mt-auto pt-3">
               <p className="mb-1 text-xs text-muted-foreground">Evori Dreamwings Vandal</p>
               <div className="flex items-center gap-2">
@@ -280,10 +275,6 @@ export default function Guide() {
             <div className="mt-3">
               <ThemeSelector />
             </div>
-            <div className="mt-auto flex items-center gap-2 pt-3">
-              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">theme=rose-pine</code>
-              <CopyBtn text="theme=rose-pine" />
-            </div>
           </div>
           <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
             <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Display toggles</h3>
@@ -303,8 +294,8 @@ export default function Guide() {
               </label>
             </div>
             <div className="mt-auto flex items-center gap-2 pt-3">
-              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">price=1&levels=0&rp=1</code>
-              <Link to="/?price=1&levels=0&rp=1" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">{spacedAmps(dispCode)}</code>
+              <Link to={`/?${dispCode}`} className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
                 Open
               </Link>
             </div>
