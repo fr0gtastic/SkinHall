@@ -34,7 +34,7 @@ export default function CopyLinkButton({ className = "", text }) {
     >
       {copied ? (
         <>
-          <Check className="h-3.5 w-3.5" /> URL encoded to clipboard
+          <Check className="h-3.5 w-3.5" /> Copied
         </>
       ) : (
         <>
