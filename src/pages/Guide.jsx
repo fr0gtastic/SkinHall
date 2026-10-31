@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Copy, Check } from "lucide-react";
+import { ArrowLeft, Copy, Check, EyeOff, Coins, ArrowUpDown, Columns3, Plus, Minus, BarChart3 } from "lucide-react";
+import { SORT_KEYS, MIN_COLS, MAX_COLS } from "@/lib/urlState";
+import { Switch } from "@/components/ui/switch";
+import { HidePill, NmPill } from "@/components/filters/Pill";
+import ThemeSelector from "@/components/ThemeSelector";
 
 function CopyBtn({ text }) {
   const [copied, setCopied] = useState(false);
@@ -27,10 +31,10 @@ function CopyBtn({ text }) {
 
 function Card({ title, desc, example }) {
   return (
-    <div className="rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+    <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
       <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
-      <div className="mt-3 flex items-center gap-2">
+      <div className="mt-auto flex items-center gap-2 pt-3">
         <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">{example}</code>
         <CopyBtn text={example} />
       </div>
@@ -48,6 +52,17 @@ function Section({ title, children }) {
 }
 
 export default function Guide() {
+  const [hides, setHides] = useState({ vct: false, bp: false, sd: false, ag: false, nm: false });
+  const toggleHide = (key) => setHides((h) => ({ ...h, [key]: !h[key] }));
+  const [cols, setCols] = useState(4);
+  const [sortKey, setSortKey] = useState("name");
+  const [sortDir, setSortDir] = useState("asc");
+  const [disp, setDisp] = useState({ price: true, levels: false, rp: false });
+  const toggleDisp = (k) => setDisp((d) => ({ ...d, [k]: !d[k] }));
+  const setSort = (key) => {
+    if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    else { setSortKey(key); setSortDir("asc"); }
+  };
   return (
     <div className="min-h-screen bg-background">
       <div className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur-xl">
@@ -71,13 +86,13 @@ export default function Guide() {
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             One-shot filter and sort from typed tokens. Prefix matching works ("sel" becomes Select).
           </p>
-          <div className="mt-3 flex items-center gap-2">
+          <div className="mt-auto flex items-center gap-2 pt-3">
             <code className="flex-1 rounded border border-primary/60 bg-primary/15 px-2 py-1 font-mono text-xs text-primary">excl bandit cheapest</code>
             <CopyBtn text="excl bandit cheapest" />
           </div>
         </div>
         <Section title="Smart Search">
-          <div className="rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
             <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Search syntax keywords</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">cheap/lowest -&gt; price asc, expensive/highest -&gt; price desc. Weapon and rarity names accept prefixes.</p>
             <ul className="mt-5 space-y-5">
@@ -106,21 +121,174 @@ export default function Guide() {
           </div>
         </Section>
         <Section title="URLs and Sharing">
-          <Card title="URL state / deep links" desc="Every filter, sort, toggle, search term, and grid density lives in the URL. Share a link and the recipient sees the exact same view." example="?rarity=exclusive&w=...&sort=price&dir=asc" />
-          <Card title="Reset via logo click" desc="Click the SkinHall wordmark in the header to clear all filters and reset the view." example="click SKINHALL" />
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">URL state / deep links</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Every filter, sort, toggle, search term, and grid density lives in the URL. Share a link and the recipient sees the exact same view.</p>
+            <p className="mt-3 text-xs text-muted-foreground">Exclusive skins sorted by price ascending</p>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">/?rarity=exclusive&sort=price&dir=asc</code>
+              <Link to="/?rarity=exclusive&sort=price&dir=asc" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+                Open
+              </Link>
+            </div>
+          </div>
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Reset via logo click</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Click the SkinHall wordmark in the header to clear all filters and reset the view.</p>
+            <div className="mt-auto pt-3">
+              <button
+                type="button"
+                onClick={() => {}}
+                className="block text-primary text-glow-red cursor-pointer border-0 bg-transparent p-0 font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight hover:opacity-80"
+              >
+                SKINHALL
+              </button>
+            </div>
+          </div>
         </Section>
         <Section title="Filters">
           <Card title="Bundle dropdown adapts" desc="The bundle filter only shows bundles with items matching your current filters and hide toggles. It shrinks as you filter." example="filter -> bundle list shrinks" />
-          <Card title="Night Market filter" desc="Hide skins that aren't Night Market eligible (excludes gear, Battle Pass, Exclusive, Ultra; enforces melee price cap)." example="nm=1" />
-          <Card title="Hide toggles" desc="Five hide pills: VCT, Battle Pass/standard, Select & Deluxe, agent gear, Night Market-ineligible. Each persists in the URL." example="hvct=1&hbp=1&hsd=1&hag=1&nm=1" />
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Night Market filter</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Show skins that are Night Market eligible (excludes gear, Battle Pass, Exclusive, Ultra; enforces melee price cap).</p>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <NmPill active={hides.nm} onClick={() => toggleHide("nm")}>
+                <Coins className="h-3 w-3" />
+                Night Market
+              </NmPill>
+            </div>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">nm=1</code>
+              <Link to="/?nm=1" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+                Open
+              </Link>
+            </div>
+          </div>
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Hide toggles</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Five hide pills: VCT, Battle Pass/standard, Select &amp; Deluxe, agent gear, Night Market-ineligible. Each persists in the URL.</p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <HidePill active={hides.vct} onClick={() => toggleHide("vct")} icon={EyeOff}>VCT</HidePill>
+              <HidePill active={hides.bp} onClick={() => toggleHide("bp")} icon={EyeOff}>Battle Pass</HidePill>
+              <HidePill active={hides.sd} onClick={() => toggleHide("sd")} icon={EyeOff}>Select &amp; Deluxe</HidePill>
+              <HidePill active={hides.ag} onClick={() => toggleHide("ag")} icon={EyeOff}>Agent Gear</HidePill>
+            </div>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">hvct=1&hbp=1&hsd=1&hag=1</code>
+              <Link to="/?hvct=1&hbp=1&hsd=1&hag=1" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+                Open
+              </Link>
+            </div>
+          </div>
         </Section>
         <Section title="Everything Else">
-          <Card title="Grid density control" desc="+/- column count, clamped to min and max, shareable via cols=." example="cols=4" />
-          <Card title="Sort options" desc="Sort by name, price, bundle, weapon, or tier, ascending or descending." example="sort=price&dir=asc" />
-          <Card title="Per-skin detail pages" desc="/skin/:id shows pricing, rarity, and the Radianite upgrade breakdown. Shareable." example="/skin/abc123" />
-          <Card title="Stats page" desc="Aggregate counts and summaries for the whole catalog." example="/stats" />
-          <Card title="Theme selector" desc="Multiple themes available in the header." example="theme=rose-pine" />
-          <Card title="Display toggles" desc="Show price, upgrade levels, and Radianite points on cards via the FilterBar toggles." example="price=1&levels=1&rp=1" />
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Grid density control</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">+/- column count, clamped to min and max, shareable via cols=.</p>
+            <div className="mt-3 flex items-center gap-1.5 border border-border bg-card/40 px-1.5 py-1.5 v-cut-sm">
+              <Columns3 className="h-3.5 w-3.5 text-muted-foreground" />
+              <button onClick={() => setCols((c) => Math.max(MIN_COLS, c - 1))} disabled={cols <= MIN_COLS} aria-label="Fewer columns" className="flex h-6 w-6 items-center justify-center rounded border border-border bg-card/60 text-foreground/70 transition-all hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40">
+                <Minus className="h-3.5 w-3.5" />
+              </button>
+              <span className="w-5 text-center font-mono text-[11px] font-semibold text-foreground/80">{cols}</span>
+              <button onClick={() => setCols((c) => Math.min(MAX_COLS, c + 1))} disabled={cols >= MAX_COLS} aria-label="More columns" className="flex h-6 w-6 items-center justify-center rounded border border-border bg-card/60 text-foreground/70 transition-all hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40">
+                <Plus className="h-3.5 w-3.5" />
+              </button>
+            </div>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">cols=4</code>
+              <Link to="/?cols=4" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+                Open
+              </Link>
+            </div>
+          </div>
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Sort options</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Sort by name, price, bundle, weapon, or tier, ascending or descending.</p>
+            <div className="mt-3 flex items-center gap-1">
+              <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground" />
+              {SORT_KEYS.map((sk) => (
+                <button
+                  key={sk.key}
+                  onClick={() => setSort(sk.key)}
+                  className={`v-cut-sm border px-2 py-1.5 font-display text-[11px] uppercase tracking-[0.08em] transition-all ${
+                    sortKey === sk.key ? "border-primary bg-primary/15 text-primary" : "border-border bg-card/40 text-foreground/60 hover:text-foreground"
+                  }`}
+                >
+                  {sk.label}
+                  {sortKey === sk.key && <span className="ml-1 text-[9px] opacity-70">{sortDir === "asc" ? "↑" : "↓"}</span>}
+                </button>
+              ))}
+            </div>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">sort=price&dir=asc</code>
+              <Link to="/?sort=price&dir=asc" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+                Open
+              </Link>
+            </div>
+          </div>
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Per-skin detail pages</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">/skin/:id shows pricing, rarity, and the Radianite upgrade breakdown. Shareable.</p>
+            <p className="mt-3 text-xs text-muted-foreground">Evori Dreamwings Vandal</p>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">/skin/4F5EE03A-4204-5526-6941-BCA4F911A768</code>
+              <Link to="/skin/4F5EE03A-4204-5526-6941-BCA4F911A768" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+                Open
+              </Link>
+            </div>
+          </div>
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Stats page</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Aggregate counts and summaries for the whole catalog.</p>
+            <div className="mt-3">
+              <Link to="/stats" className="inline-flex items-center gap-2 rounded-md border border-primary/60 bg-primary/10 px-5 py-2.5 font-display text-xs uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground">
+                <BarChart3 className="h-4 w-4" />
+                View Skin Statistics
+              </Link>
+            </div>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">/stats</code>
+              <Link to="/stats" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+                Open
+              </Link>
+            </div>
+          </div>
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Theme selector</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Multiple themes available in the header.</p>
+            <div className="mt-3">
+              <ThemeSelector />
+            </div>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">theme=rose-pine</code>
+              <CopyBtn text="theme=rose-pine" />
+            </div>
+          </div>
+          <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+            <h3 className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">Display toggles</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Show price, upgrade levels, and Radianite points on cards via the FilterBar toggles.</p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <label className="flex cursor-pointer select-none items-center gap-2 border border-border bg-card/40 px-2.5 py-1.5 v-cut-sm">
+                <Switch checked={disp.price} onCheckedChange={() => toggleDisp("price")} className="data-[state=checked]:bg-[hsl(var(--primary))]" />
+                <span className={`font-display text-[11px] uppercase tracking-[0.08em] ${disp.price ? "text-[hsl(var(--primary))]" : "text-foreground/60"}`}>Price</span>
+              </label>
+              <label className="flex cursor-pointer select-none items-center gap-2 border border-border bg-card/40 px-2.5 py-1.5 v-cut-sm">
+                <Switch checked={disp.levels} onCheckedChange={() => toggleDisp("levels")} className="data-[state=checked]:bg-[hsl(var(--primary))]" />
+                <span className={`font-display text-[11px] uppercase tracking-[0.08em] ${disp.levels ? "text-[hsl(var(--primary))]" : "text-foreground/60"}`}>Levels</span>
+              </label>
+              <label className="flex cursor-pointer select-none items-center gap-2 border border-border bg-card/40 px-2.5 py-1.5 v-cut-sm">
+                <Switch checked={disp.rp} onCheckedChange={() => toggleDisp("rp")} className="data-[state=checked]:bg-[hsl(var(--radianite))]" />
+                <span className={`font-display text-[11px] uppercase tracking-[0.08em] ${disp.rp ? "text-[hsl(var(--radianite))]" : "text-foreground/60"}`}>RP</span>
+              </label>
+            </div>
+            <div className="mt-auto flex items-center gap-2 pt-3">
+              <code className="flex-1 rounded border border-border/60 bg-card/30 px-2 py-1 font-mono text-xs text-foreground/80">price=1&levels=1&rp=1</code>
+              <Link to="/?price=1&levels=1&rp=1" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
+                Open
+              </Link>
+            </div>
+          </div>
         </Section>
       </div>
     </div>
