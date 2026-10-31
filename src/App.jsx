@@ -4,6 +4,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Catalog from '@/pages/Catalog';
 import SkinDetail from '@/pages/SkinDetail';
 import Stats from '@/pages/Stats';
+import Guide from '@/pages/Guide';
 import Footer from './components/Footer';
 import ThemeSelector from './components/ThemeSelector';
 
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/" element={<Catalog />} />
         <Route path="/skin/:id" element={<SkinDetail />} />
         <Route path="/stats" element={<Stats />} />
+        <Route path="/guide" element={<Guide />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer />

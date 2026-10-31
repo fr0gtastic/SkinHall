@@ -42,13 +42,19 @@ export default function Hero({ count, filtered, onReset, onSearch }) {
             </span>
           )}
         </div>
-        <div className="mt-6">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
           <Link
             to="/stats"
             className="inline-flex items-center gap-2 rounded-md border border-primary/60 bg-primary/10 px-5 py-2.5 font-display text-xs uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
           >
             <BarChart3 className="h-4 w-4" />
             View Skin Statistics
+          </Link>
+          <Link
+            to="/guide"
+            className="inline-flex items-center gap-2 rounded-md border border-primary/60 bg-primary/10 px-5 py-2.5 font-display text-xs uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+          >
+            Guide
           </Link>
         </div>
         <div className="mt-3 hidden items-center gap-2 v-cut-sm border border-primary/60 bg-primary/10 px-3 py-1.5 font-display text-[11px] uppercase tracking-[0.18em] text-primary sm:inline-flex">
