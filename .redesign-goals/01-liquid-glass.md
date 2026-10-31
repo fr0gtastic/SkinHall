@@ -21,3 +21,16 @@ still holds via layering, hairlines, and noise alone.
 
 ## Completion
 `./scripts/verify-redesign.sh 400 3` exits 0 with PASS.
+
+## Anti-padding (gate enforces this)
+
+Every CSS rule you add must be referenced from at least one component.
+Do not generate `class-1`, `class-2`, ... to inflate line count.
+If the gate fails on lines, add **more component usage**, not more
+unused CSS. `./scripts/check-no-padding.sh` fails if >5 CSS classes
+are unreferenced.
+
+If your reasoning includes "I need more lines" or "let me add more CSS",
+stop — that is padding, not redesign. Redesign the components themselves:
+change structure, layout, hierarchy, typography. The CSS is a consequence
+of the design, not a substitute for it.
