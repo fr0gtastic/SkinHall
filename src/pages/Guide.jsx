@@ -4,6 +4,7 @@ import { ArrowLeft, Copy, Check, EyeOff, Coins, ArrowUpDown, Columns3, Plus, Min
 import { SORT_KEYS, MIN_COLS, MAX_COLS } from "@/lib/urlState";
 import { Switch } from "@/components/ui/switch";
 import { HidePill, NmPill } from "@/components/filters/Pill";
+import CopyLinkButton from "@/components/CopyLinkButton";
 import ThemeSelector from "@/components/ThemeSelector";
 
 function CopyBtn({ text }) {
@@ -137,6 +138,7 @@ export default function Guide() {
               <Link to="/?rarity=exclusive&sort=price&dir=asc" className="inline-flex items-center gap-1.5 border border-border bg-card/60 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm">
                 Open
               </Link>
+              <CopyLinkButton text="/?rarity=exclusive&sort=price&dir=asc" className="px-2.5 py-1 text-[10px]" />
             </div>
           </div>
           <div className="flex h-full flex-col rounded-lg border border-border bg-card/60 p-5 v-cut-sm">

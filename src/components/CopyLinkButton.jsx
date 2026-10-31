@@ -2,18 +2,20 @@
 import { useState } from "react";
 import { Link2, Check } from "lucide-react";
 
-export default function CopyLinkButton({ className = "" }) {
+export default function CopyLinkButton({ className = "", text }) {
   const [copied, setCopied] = useState(false);
+
+  const value = text || window.location.href;
 
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(value);
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
       // fallback for non-secure contexts
       const ta = document.createElement("textarea");
-      ta.value = window.location.href;
+      ta.value = value;
       document.body.appendChild(ta);
       ta.select();
       try {
