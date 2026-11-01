@@ -32,7 +32,7 @@ export default function CopyLinkButton({ className = "", text }) {
   return (
     <button
       onClick={copy}
-      className={`group inline-flex items-center gap-2 border border-border bg-card/60 px-3 py-2 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/80 transition-colors hover:border-primary hover:text-primary v-cut-sm ${className}`}
+      className={`group inline-flex items-center gap-2 border border-white/10 bg-white/5 backdrop-blur-md px-3 py-2 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/80 transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:border-white/25 hover:bg-white/10 hover:text-foreground rounded-full ${className}`}
     >
       {copied ? (
         <>

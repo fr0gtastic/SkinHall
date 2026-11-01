@@ -185,8 +185,15 @@ export default function Catalog() {
   const shown = pageSlice;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative min-h-screen bg-transparent">
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute -top-40 hidden sm:block left-1/2 -translate-x-1/2 h-[600px] w-[600px] rounded-full bg-[rgba(255,70,85,0.22)] blur-[120px]" />
+        <div className="absolute top-1/3 -right-40 hidden sm:block h-[460px] w-[460px] rounded-full bg-[rgba(168,85,247,0.16)] blur-[120px]" />
+        <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-[rgba(34,211,238,0.14)] blur-[120px]" />
+      </div>
+      <div className="relative z-10">
       <Hero count={data.skins.length} filtered={filtered.length} onReset={resetAll} onSearch={() => setSearchOpen(true)} />
+      <div className="relative z-10 -mt-6">
       <FilterBar
         weapons={data.weapons}
         collections={visibleCollections}
@@ -195,6 +202,7 @@ export default function Catalog() {
         total={data.skins.length}
         shown={filtered.length}
       />
+      </div>
       <SearchPopup onChange={updateState} open={searchOpen} onOpenChange={setSearchOpen} />
 
       <div className="mx-auto max-w-[1600px] px-5 pt-6 sm:px-8 sm:pt-8">
@@ -232,6 +240,7 @@ export default function Catalog() {
           onPageChange={setCurrentPage}
         />
       </main>
+      </div>
     </div>
   );
 }

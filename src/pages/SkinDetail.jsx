@@ -49,47 +49,48 @@ export default function SkinDetail() {
   const radianite = deriveRadianite(skin);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* top bar */}
-      <div className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-3 px-5 py-3 sm:px-8">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/70 transition-colors hover:text-primary"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" /> SkinHall
-          </Link>
-          <CopyLinkButton />
-        </div>
+    <div className="relative min-h-screen bg-transparent">
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[600px] w-[600px] rounded-full bg-[rgba(255,70,85,0.22)] blur-[120px]" />
+        <div className="absolute top-1/3 -right-40 h-[460px] w-[460px] rounded-full bg-[rgba(168,85,247,0.16)] blur-[120px]" />
+        <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-[rgba(34,211,238,0.14)] blur-[120px]" />
       </div>
-
+      <div className="relative z-10">
+      <div className="mx-auto flex max-w-[1400px] items-center gap-2 px-5 pt-16 sm:px-8 sm:pt-4">
+        <Link to="/" className="hero-chip transition-colors hover:bg-primary hover:text-primary-foreground">
+          <ArrowLeft className="h-3.5 w-3.5" /> Back
+        </Link>
+        <CopyLinkButton />
+      </div>
       <div className="mx-auto grid max-w-[1400px] gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.4fr_1fr] lg:py-12">
         {/* gallery */}
         <div>
-          <div className="relative aspect-[4/3] v-cut border border-border bg-card overflow-hidden">
-            {skin.tierId && (
-              <span
-                className="pointer-events-none absolute inset-x-0 top-0 h-[2px]"
-                style={{ backgroundColor: `hsl(var(--tier-${skin.tierId}))` }}
-              />
-            )}
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={chroma.id || skin.id}
-                src={chroma.image || skin.defaultImage}
-                alt={chroma.name || skin.name}
-                initial={{ opacity: 0, filter: "brightness(0.5) blur(4px)" }}
-                animate={{ opacity: 1, filter: "brightness(1) blur(0)" }}
-                exit={{ opacity: 0, filter: "brightness(0.5) blur(4px)" }}
-                transition={{ duration: 0.25 }}
-                className="absolute inset-0 h-full w-full object-contain p-6"
-              />
-            </AnimatePresence>
-            {skin.tierId && (
-              <span className="absolute right-3 top-3">
-                <RarityBadge tierId={skin.tierId} tierName={skin.tierName} size={14} />
-              </span>
-            )}
+          <div className="relative overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.04] shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]">
+            <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-b from-black/40 to-black/10">
+              {skin.tierId && (
+                <span
+                  className="pointer-events-none absolute inset-x-0 top-0 h-[2px]"
+                  style={{ backgroundColor: `hsl(var(--tier-${skin.tierId}))` }}
+                />
+              )}
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={chroma.id || skin.id}
+                  src={chroma.image || skin.defaultImage}
+                  alt={chroma.name || skin.name}
+                  initial={{ opacity: 0, filter: "brightness(0.5) blur(4px)" }}
+                  animate={{ opacity: 1, filter: "brightness(1) blur(0)" }}
+                  exit={{ opacity: 0, filter: "brightness(0.5) blur(4px)" }}
+                  transition={{ duration: 0.25 }}
+                  className="absolute inset-0 h-full w-full object-contain p-12"
+                />
+              </AnimatePresence>
+              {skin.tierId && (
+                <span className="absolute right-3 top-3">
+                  <RarityBadge tierId={skin.tierId} tierName={skin.tierName} size={14} />
+                </span>
+              )}
+            </div>
           </div>
 
           {/* chroma swatches */}
@@ -106,10 +107,10 @@ export default function SkinDetail() {
                       key={c.id}
                       onClick={() => setActiveChroma(i)}
                       title={c.name}
-                      className={`group relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-lg border transition-all v-cut-sm ${
+                      className={`group relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-[14px] border transition-all ${
                         active
-                          ? "border-primary border-2 bg-primary/10 ring-2 ring-primary/50 shadow-[0_0_0_4px_hsl(var(--primary)/15),0_0_18px_-2px_hsl(var(--primary)/60)]"
-                          : "border-border bg-card/40 hover:border-foreground/40"
+                          ? "border-primary border-2 bg-primary/15 ring-2 ring-primary/50 shadow-[0_0_0_4px_hsl(var(--primary)/15),0_0_18px_-2px_hsl(var(--primary)/60)]"
+                          : "border-white/10 bg-white/[0.04] hover:border-white/25"
                       }`}
                     >
                       <span className="h-12 w-12 overflow-hidden">
@@ -154,7 +155,7 @@ export default function SkinDetail() {
             </p>
           </div>
 
-          <div className="flex items-center justify-between rounded-lg border border-border bg-card/60 p-4 v-cut-sm">
+          <div className="flex items-center justify-between rounded-[22px] border border-white/10 bg-white/[0.04] p-5 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]">
             {skin.tierId && (
               <div>
                 <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
@@ -185,7 +186,7 @@ export default function SkinDetail() {
 
           {/* variant levels (text only - no art in the data) */}
           {skin.levels.length > 0 && (
-            <div className="rounded-lg border border-border bg-card/60 p-4 v-cut-sm">
+            <div className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]">
               <p className="mb-2 flex items-center gap-1.5 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/80">
                 <ListTree className="h-3.5 w-3.5" /> Upgrade Levels
               </p>
@@ -222,13 +223,14 @@ export default function SkinDetail() {
           </div>
         </div>
       </div>
+      </div>
     </div>
   );
 }
 
 function Stat({ label, value }) {
   return (
-    <div className="rounded border border-border bg-card/40 p-3 text-center v-cut-sm">
+    <div className="rounded-[14px] border border-white/10 bg-white/[0.04] p-3 text-center shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.12)]">
       <p className="font-mono text-xl font-bold text-white">{value}</p>
       <p className="mt-0.5 font-display text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
         {label}

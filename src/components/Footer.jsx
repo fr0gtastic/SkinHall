@@ -3,7 +3,7 @@ import { Github } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t border-border/40 py-8 text-center">
+    <footer className="pt-16 border-t border-white/5 bg-transparent backdrop-blur-sm py-8 text-center">
       <div className="mx-auto max-w-[1600px] px-5 sm:px-8">
         <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
           SkinHall

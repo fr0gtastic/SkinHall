@@ -55,7 +55,7 @@ export default function RadianiteBreakdown({ skin }) {
   }
 
   return (
-    <div className="rounded-lg border border-border bg-card/60 p-4 v-cut-sm">
+    <div className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]">
       <div className="mb-3 flex items-center gap-2">
         <Sparkles className="h-4 w-4" style={{ color: "hsl(var(--radianite))" }} />
         <h4 className="font-display text-xs uppercase tracking-[0.16em] text-foreground/80">

@@ -132,35 +132,48 @@ export default function Stats() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* top bar */}
-      <div className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-3 px-5 py-3 sm:px-8">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 font-display text-[11px] uppercase tracking-[0.14em] text-foreground/70 transition-colors hover:text-primary"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" /> Back
-          </Link>
-        </div>
+    <div className="relative min-h-screen bg-transparent">
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute -top-40 hidden sm:block left-1/2 -translate-x-1/2 h-[600px] w-[600px] rounded-full bg-[rgba(255,70,85,0.22)] blur-[120px]" />
+        <div className="absolute top-1/3 -right-40 hidden sm:block h-[460px] w-[460px] rounded-full bg-[rgba(168,85,247,0.16)] blur-[120px]" />
+        <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-[rgba(34,211,238,0.14)] blur-[120px]" />
       </div>
-
-      <div className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8 sm:py-16">
-        <p className="eyebrow-rule font-display text-xs uppercase tracking-[0.28em] text-primary">
-          Overview
-        </p>
-        <h1 className="mt-4 font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight text-white sm:text-6xl">
-          Collection
-          <span className="block text-primary text-glow-red">Statistics</span>
-        </h1>
-        <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-          A breakdown of every bundle and skin in the catalog, grouped by
-          rarity tier. Agent Gear is excluded (it carries no rarity).
-        </p>
+      <div className="relative z-10">
+      <header className="hero-root relative overflow-hidden border-b border-border/60">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="hero-orb hero-orb--primary" />
+          <div className="hero-orb hero-orb--ultra" />
+          <div className="hero-orb hero-orb--accent" />
+        </div>
+        <div className="relative mx-auto max-w-[1600px] px-5 pt-24 pb-6 sm:px-8 sm:py-16">
+          <div className="hero-glass-panel rounded-3xl px-6 py-10 sm:px-10 sm:py-14">
+            <div className="flex flex-wrap gap-2">
+              <Link to="/" className="hero-chip transition-colors hover:bg-primary hover:text-primary-foreground">
+                <ArrowLeft className="h-3.5 w-3.5" /> Back
+              </Link>
+              <span className="hero-chip">Overview</span>
+            </div>
+            <h1 className="mt-6 font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight text-white sm:text-6xl">
+              Collection
+              <span className="block text-primary text-glow-red">Statistics</span>
+            </h1>
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              A breakdown of every bundle and skin in the catalog, grouped by
+              rarity tier. Agent Gear is excluded (it carries no rarity).
+            </p>
+          </div>
+        </div>
+      </header>
+      <div className="relative mx-auto max-w-[1600px] px-5 pt-0 pb-12 sm:px-8 sm:py-16">
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="hero-orb hero-orb--primary" />
+          <div className="hero-orb hero-orb--ultra" />
+          <div className="hero-orb hero-orb--accent" />
+        </div>
 
         {/* hero stat */}
         <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <div className="rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]">
             <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
               Total Bundles
             </p>
@@ -168,7 +181,7 @@ export default function Stats() {
               {filteredTotals.bundles}
             </p>
           </div>
-          <div className="rounded-lg border border-border bg-card/60 p-5 v-cut-sm">
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]">
             <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
               Total Skins
             </p>
@@ -176,7 +189,7 @@ export default function Stats() {
               {filteredTotals.skins}
             </p>
           </div>
-          <div className="rounded-lg border border-border bg-card/60 p-5 v-cut-sm col-span-2 sm:col-span-1">
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.04] p-5 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)] col-span-2 sm:col-span-1">
             <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
               Rarity Tiers
             </p>
@@ -193,10 +206,10 @@ export default function Stats() {
               <button
                 key={r.id}
                 onClick={() => toggleRarity(r.id)}
-                className={`v-cut-sm border px-3 py-1.5 font-display text-[12px] uppercase tracking-[0.08em] transition-all duration-150 ${
+                className={`rounded-full border bg-white/5 backdrop-blur-md px-3 py-1.5 font-display text-[12px] uppercase tracking-[0.08em] transition-all duration-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] ${
                   active
-                    ? "border-primary bg-primary/15 text-primary text-glow-red"
-                    : "border-border bg-card/40 text-foreground/70 hover:border-foreground/40 hover:text-foreground"
+                    ? "border-primary/60 bg-primary/15 text-primary text-glow-red shadow-[0_0_12px_rgba(255,70,85,0.35),inset_0_1px_0_rgba(255,255,255,0.2)]"
+                    : "border-white/10 text-foreground/70 hover:border-white/25 hover:text-foreground"
                 }`}
               >
                 <span
@@ -218,7 +231,7 @@ export default function Stats() {
 
         <details open className="mt-10">
           <summary className="cursor-pointer font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Skins by Weapon</summary>
-          <div className="mt-4 rounded-lg border border-border bg-card/40 p-4 v-cut-sm">
+          <div className="mt-4 rounded-[22px] border border-white/10 bg-white/[0.04] p-4 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]">
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
             {Object.entries(
               data.skins.reduce((acc, s) => {
@@ -233,7 +246,7 @@ export default function Stats() {
               .map(([name, count]) => (
                 <div
                   key={name}
-                  className="flex items-center justify-between rounded border border-border/60 bg-card/30 px-3 py-2"
+                  className="flex items-center justify-between rounded-[14px] border border-white/10 bg-white/[0.04] px-3 py-2 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.12)]"
                 >
                   <span className="text-sm text-foreground/80">{name}</span>
                   <span className="font-mono text-sm font-bold text-white">
@@ -250,7 +263,7 @@ export default function Stats() {
 
         <details open className="mt-10">
           <summary className="cursor-pointer font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Rarities by Weapon</summary>
-          <div className="mt-4 rounded-lg border border-border bg-card/40 p-3 v-cut-sm">
+          <div className="mt-4 rounded-[22px] border border-white/10 bg-white/[0.04] p-3 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]">
           <div className="mt-2 space-y-1">
             {Object.entries(
             data.skins.reduce((acc, s) => {
@@ -315,6 +328,7 @@ export default function Stats() {
         </div>
         </div>
         </details>
+      </div>
       </div>
     </div>
   );

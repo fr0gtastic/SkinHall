@@ -7,8 +7,8 @@ export default function StatsSummary({ tiers, rows, totals }) {
   const maxSkins = Math.max(1, ...rows.map((r) => r.skins));
 
   return (
-    <div className="overflow-hidden rounded-lg border border-border bg-card/40 v-cut-sm">
-      <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-3 sm:px-5">
+    <div className="overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.04] shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]">
+      <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 sm:px-5">
         <div>
           <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
             By Rarity
@@ -26,7 +26,7 @@ export default function StatsSummary({ tiers, rows, totals }) {
         </div>
       </div>
 
-      <div className="divide-y divide-border/50">
+      <div className="divide-y divide-white/10">
         {rows.map((r) => (
           <div key={r.id} className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto] items-center gap-3 px-4 py-3 sm:px-5">
             <div className="flex items-center gap-2.5">

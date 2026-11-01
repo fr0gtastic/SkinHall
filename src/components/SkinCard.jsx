@@ -25,7 +25,8 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="relative flex h-full flex-col v-cut border border-border bg-card overflow-hidden transition-all duration-200 hover:border-primary/70 hover:-translate-y-1 hover:shadow-[0_12px_40px_-12px_rgba(255,70,85,0.35)]"
+        style={{ backdropFilter: "blur(24px) saturate(180%)", WebkitBackdropFilter: "blur(24px) saturate(180%)" }}
+        className="relative flex h-full flex-col rounded-[22px] border border-white/10 bg-white/[0.04] overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:bg-white/[0.08] shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.06)]"
       >
         {/* tier edge accent */}
         {skin.tierId && (
@@ -69,7 +70,7 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
           )}
           {/* variant count chip */}
           {variantCount > 0 && (
-            <span className="absolute left-2 top-2 z-10 flex items-center gap-1 bg-background/80 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground/80 backdrop-blur-sm v-cut-sm">
+            <span className="absolute left-2 top-2 z-10 flex items-center gap-1 rounded-md bg-background/70 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground/80 backdrop-blur-sm">
               +{variantCount} variant{variantCount === 1 ? "" : "s"}
             </span>
           )}

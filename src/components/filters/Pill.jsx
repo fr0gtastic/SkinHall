@@ -4,10 +4,10 @@ export function Pill({ active, onClick, children }) {
   return (
     <button
       onClick={onClick}
-      className={`v-cut-sm border px-3 py-1.5 font-display text-[12px] uppercase tracking-[0.08em] transition-all duration-150 ${
+      className={`rounded-full border bg-white/5 backdrop-blur-md px-3 py-1.5 font-display text-[12px] uppercase tracking-[0.08em] transition-all duration-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] ${
         active
-          ? "border-primary bg-primary/15 text-primary text-glow-red"
-          : "border-border bg-card/40 text-foreground/70 hover:border-foreground/40 hover:text-foreground"
+          ? "border-primary/60 bg-primary/15 text-primary text-glow-red shadow-[0_0_12px_rgba(255,70,85,0.35),inset_0_1px_0_rgba(255,255,255,0.2)]"
+          : "border-white/10 text-foreground/70 hover:border-white/25 hover:text-foreground"
       }`}
     >
       {children}
@@ -25,10 +25,10 @@ export function NmPill({ active, onClick, children }) {
   return (
     <button
       onClick={onClick}
-      className={`v-cut-sm flex items-center gap-1.5 border px-2.5 py-1.5 font-display text-[11px] uppercase tracking-[0.08em] transition-all duration-150 ${
+      className={`rounded-full flex items-center gap-1.5 border bg-white/5 backdrop-blur-md px-2.5 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] font-display text-[11px] uppercase tracking-[0.08em] transition-all duration-150 ${
         active
-          ? "border-primary bg-primary/15 text-primary"
-          : "border-border bg-card/40 text-foreground/60 hover:border-foreground/40 hover:text-foreground"
+          ? "border-primary/60 bg-primary/15 text-primary text-glow-red shadow-[0_0_12px_rgba(255,70,85,0.35),inset_0_1px_0_rgba(255,255,255,0.2)]"
+          : "border-white/10 text-foreground/60 hover:border-white/25 hover:text-foreground"
       }`}
     >
       {children}
@@ -46,10 +46,10 @@ export function HidePill({ active, onClick, children, icon: Icon }) {
   return (
     <button
       onClick={onClick}
-      className={`v-cut-sm flex items-center gap-1.5 border px-2.5 py-1.5 font-display text-[11px] uppercase tracking-[0.08em] transition-all duration-150 ${
+      className={`rounded-full flex items-center gap-1.5 border bg-white/5 backdrop-blur-md px-2.5 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] font-display text-[11px] uppercase tracking-[0.08em] transition-all duration-150 ${
         active
-          ? "border-destructive bg-destructive/15 text-destructive"
-          : "border-border bg-card/40 text-foreground/60 hover:border-foreground/40 hover:text-foreground"
+          ? "border-destructive/60 bg-destructive/15 text-destructive text-glow-red shadow-[0_0_12px_rgba(255,70,85,0.35),inset_0_1px_0_rgba(255,255,255,0.2)]"
+          : "border-white/10 text-foreground/60 hover:border-white/25 hover:text-foreground"
       }`}
     >
       {Icon ? <Icon className="h-3 w-3" /> : null}

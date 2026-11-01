@@ -12,7 +12,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
-      <div className="sm:static absolute top-0 right-0 z-50 flex items-center justify-end gap-2 px-5 py-2 sm:bg-background/80 sm:backdrop-blur bg-transparent">
+      <div className="sm:static absolute top-0 right-0 z-50 flex w-full items-center justify-end gap-2 border-b border-white/5 bg-transparent backdrop-blur-sm px-4 py-4 sm:px-8 sm:py-6">
         <ThemeSelector />
       </div>
       <Routes>

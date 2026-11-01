@@ -10,7 +10,7 @@ const THEMES = [
 
 export default function ThemeSelector({ className = "" }) {
   const [active, setActive] = useState(() => {
-    return localStorage.getItem("theme") || "rose-pine";
+    return localStorage.getItem("theme") || "skinhall-dark";
   });
 
   useEffect(() => {
@@ -22,16 +22,16 @@ export default function ThemeSelector({ className = "" }) {
 
   return (
     <label className={`inline-flex items-center gap-2 ${className}`} htmlFor="theme-select">
-      <span className="text-xs text-muted-foreground">Theme</span>
+      <span className="hidden items-center gap-1.5 font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:flex">Theme</span>
       <select
         id="theme-select"
         value={active}
         onChange={(e) => setActive(e.target.value)}
         aria-label="Theme"
-        className="rounded border border-border bg-card px-2 py-1 text-xs text-foreground"
+        className="rounded-full border border-white/10 bg-[hsl(var(--card))] px-3 py-1.5 font-display text-[11px] uppercase tracking-[0.08em] text-foreground/80 backdrop-blur-md transition-all hover:border-white/25 hover:bg-[hsl(var(--card))]/80 hover:text-foreground [&>option]:bg-[hsl(var(--card))] [&>option]:text-foreground"
       >
         {THEMES.map((t) => (
-          <option key={t.id} value={t.id}>
+          <option key={t.id} value={t.id} className="bg-[hsl(var(--card))] text-foreground">
             {t.name}
           </option>
         ))}

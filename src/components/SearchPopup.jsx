@@ -42,18 +42,18 @@ export default function SearchPopup({ onChange, open: controlledOpen, onOpenChan
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 pt-20">
-      <div className="mx-4 w-full max-w-md rounded-md border border-border bg-card/95 p-4 backdrop-blur-xl">
+      <div className="mx-4 w-full max-w-md rounded-2xl glass-panel p-4">
         <Input
           autoFocus
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") apply(); }}
-          placeholder="Search filters..."
+          placeholder="Search filters..." className="glass-input rounded-full"
         />
         <div className="mt-2 flex gap-2 text-sm">
-          {parsed.rarity && <span className="rounded bg-muted px-2 py-1">{parsed.rarity}</span>}
-          {parsed.weaponType && <span className="rounded bg-muted px-2 py-1">{parsed.weaponType}</span>}
-          {parsed.sort && <span className="rounded bg-muted px-2 py-1">{parsed.sort}</span>}
+          {parsed.rarity && <span className="rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-2.5 py-1 font-display text-[11px] uppercase tracking-[0.08em] text-foreground/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">{parsed.rarity}</span>}
+          {parsed.weaponType && <span className="rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-2.5 py-1 font-display text-[11px] uppercase tracking-[0.08em] text-foreground/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">{parsed.weaponType}</span>}
+          {parsed.sort && <span className="rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-2.5 py-1 font-display text-[11px] uppercase tracking-[0.08em] text-foreground/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">{parsed.sort}</span>}
         </div>
       </div>
     </div>
