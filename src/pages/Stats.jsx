@@ -177,7 +177,7 @@ export default function Stats() {
             <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
               Total Bundles
             </p>
-            <p className="mt-2 font-mono text-4xl font-bold text-white">
+            <p className="mt-2 tabular-nums text-4xl font-bold text-white">
               {filteredTotals.bundles}
             </p>
           </div>
@@ -185,7 +185,7 @@ export default function Stats() {
             <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
               Total Skins
             </p>
-            <p className="mt-2 font-mono text-4xl font-bold text-white">
+            <p className="mt-2 tabular-nums text-4xl font-bold text-white">
               {filteredTotals.skins}
             </p>
           </div>
@@ -193,7 +193,7 @@ export default function Stats() {
             <p className="font-display text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
               Rarity Tiers
             </p>
-            <p className="mt-2 font-mono text-4xl font-bold text-white">
+            <p className="mt-2 tabular-nums text-4xl font-bold text-white">
               {filteredRows.length}
             </p>
           </div>
@@ -249,7 +249,7 @@ export default function Stats() {
                   className="flex items-center justify-between rounded-[14px] border border-white/10 bg-white/[0.04] px-3 py-2 shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.12)]"
                 >
                   <span className="text-sm text-foreground/80">{name}</span>
-                  <span className="font-mono text-sm font-bold text-white">
+                  <span className="tabular-nums text-sm font-bold text-white">
                     {count}{" "}
                     <span className="text-[10px] text-muted-foreground">
                       ({filteredTotals.skins ? Math.round((count / filteredTotals.skins) * 100) : 0}%)
@@ -297,7 +297,7 @@ export default function Stats() {
                 <div key={weapon} className="border-b border-border/40 pb-2 last:border-0 last:pb-0">
                   <p className="mb-1 font-display text-xs font-semibold text-white">
                     {weapon}{" "}
-                    <span className="font-mono text-[10px] text-muted-foreground">
+                    <span className="tabular-nums text-[10px] text-muted-foreground">
                       ({weaponTotal})
                     </span>
                   </p>
@@ -316,7 +316,7 @@ export default function Stats() {
                             }}
                           />
                         </div>
-                        <span className="w-12 text-right font-mono text-[9px] text-muted-foreground">
+                        <span className="w-12 text-right tabular-nums text-[9px] text-muted-foreground">
                           {r.skins}
                         </span>
                       </div>

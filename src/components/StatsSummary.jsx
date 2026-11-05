@@ -14,7 +14,7 @@ export default function StatsSummary({ tiers, rows, totals }) {
             By Rarity
           </p>
         </div>
-        <div className="flex items-center gap-4 font-mono text-[11px] text-muted-foreground">
+        <div className="flex items-center gap-4 tabular-nums text-[11px] text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             {totals.bundles} bundles
@@ -38,7 +38,7 @@ export default function StatsSummary({ tiers, rows, totals }) {
 
             <div className="space-y-1.5">
               <div className="grid grid-cols-[5rem_1fr] items-center gap-2">
-                <span className="text-right font-mono text-[11px] text-muted-foreground">
+                <span className="text-right tabular-nums text-[11px] text-muted-foreground">
                   {r.bundles} bundle{r.bundles === 1 ? "" : "s"}
                 </span>
                 <div className="h-2 overflow-hidden rounded-full bg-border/60">
@@ -52,7 +52,7 @@ export default function StatsSummary({ tiers, rows, totals }) {
                 </div>
               </div>
               <div className="grid grid-cols-[5rem_1fr] items-center gap-2">
-                <span className="text-right font-mono text-[11px] text-muted-foreground">
+                <span className="text-right tabular-nums text-[11px] text-muted-foreground">
                   {r.skins} skin{r.skins === 1 ? "" : "s"}
                 </span>
                 <div className="h-2 overflow-hidden rounded-full bg-border/60">
@@ -68,10 +68,10 @@ export default function StatsSummary({ tiers, rows, totals }) {
             </div>
 
             <div className="text-right">
-              <p className="font-mono text-sm font-bold text-white">
+              <p className="tabular-nums text-sm font-bold text-white">
                 {Math.round((r.bundles / totals.bundles) * 100)}%
               </p>
-              <p className="font-mono text-[10px] text-muted-foreground">of bundles</p>
+              <p className="tabular-nums text-[10px] text-muted-foreground">of bundles</p>
             </div>
           </div>
         ))}

@@ -172,7 +172,7 @@ export default function SkinDetail() {
               </p>
               <div className="mt-1.5">
                 {skin.agentName ? (
-                  <span className="font-mono font-semibold text-base text-white">
+                  <span className="font-semibold text-base text-white">
                     {skin.agentName}
                   </span>
                 ) : (
@@ -194,10 +194,10 @@ export default function SkinDetail() {
                 {skin.levels.map((l, i) => (
                   <li key={l.id} className="flex flex-col gap-0.5 text-sm">
                     <div className="flex items-baseline gap-2">
-                      <span className="font-mono text-[10px] text-muted-foreground">
+                      <span className="tabular-nums text-[10px] text-muted-foreground">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="font-mono text-xs font-semibold text-foreground">
+                      <span className="text-xs font-semibold text-foreground">
                         {l.name}
                       </span>
                     </div>
@@ -231,7 +231,7 @@ export default function SkinDetail() {
 function Stat({ label, value }) {
   return (
     <div className="rounded-[14px] border border-white/10 bg-white/[0.04] p-3 text-center shadow-[inset_1px_1px_0_0_rgba(255,255,255,0.12)]">
-      <p className="font-mono text-xl font-bold text-white">{value}</p>
+      <p className="tabular-nums text-xl font-bold text-white">{value}</p>
       <p className="mt-0.5 font-display text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
         {label}
       </p>

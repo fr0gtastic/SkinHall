@@ -37,7 +37,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
 
   return (
     <div className="mt-8 flex flex-col items-center justify-center gap-3">
-      <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+      <p className="tabular-nums text-[11px] uppercase tracking-wider text-muted-foreground">
         Page {currentPage} of {totalPages}
       </p>
       <div className="flex flex-wrap items-center justify-center gap-1 rounded-2xl glass-panel px-3 py-2 backdrop-blur-md">

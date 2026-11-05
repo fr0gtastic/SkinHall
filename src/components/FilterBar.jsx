@@ -108,7 +108,7 @@ export default function FilterBar({ weapons, collections, state, onChange, total
                           {c.primaryTier && <RarityBadge tierId={c.primaryTier.id} tierName={c.primaryTier.name} size={12} />}
                           <span className="flex-1 truncate text-sm text-foreground/90">{c.name}</span>
                         </span>
-                        <span className="font-mono text-[10px] text-muted-foreground">{c.count}</span>
+                        <span className="tabular-nums text-[10px] text-muted-foreground">{c.count}</span>
                       </label>
                     ))}
                     {filteredCollections.length === 0 && <p className="px-3 py-6 text-center text-xs text-muted-foreground">No bundles match.</p>}
@@ -135,7 +135,7 @@ export default function FilterBar({ weapons, collections, state, onChange, total
             <div className="flex items-center gap-1.5 rounded-full glass-pill px-2 py-1">
               <Columns3 className="h-3.5 w-3.5 text-muted-foreground" />
               <button onClick={() => onChange({ cols: Math.max(MIN_COLS, state.cols - 1) })} disabled={state.cols <= MIN_COLS} aria-label="Fewer columns" className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/70 transition-all hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"><Minus className="h-3.5 w-3.5" /></button>
-              <span className="w-5 text-center font-mono text-[11px] font-semibold text-foreground/80">{state.cols}</span>
+              <span className="w-5 text-center tabular-nums text-[11px] font-semibold text-foreground/80">{state.cols}</span>
               <button onClick={() => onChange({ cols: Math.min(MAX_COLS, state.cols + 1) })} disabled={state.cols >= MAX_COLS} aria-label="More columns" className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/70 transition-all hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"><Plus className="h-3.5 w-3.5" /></button>
             </div>
 
@@ -174,7 +174,7 @@ export default function FilterBar({ weapons, collections, state, onChange, total
             <HidePill active={state.hideSd} onClick={() => toggleHide("hideSd")} icon={EyeOff}>Select &amp; Deluxe</HidePill>
             <HidePill active={state.hideAgentGear} onClick={() => toggleHide("hideAgentGear")} icon={EyeOff}>Agent Gear</HidePill>
             <NmPill active={state.hideNm} onClick={() => toggleHide("hideNm")}><Coins className="h-3 w-3" /> Night Market</NmPill>
-            <span className="ml-auto whitespace-nowrap font-mono text-[11px] text-muted-foreground">
+            <span className="ml-auto whitespace-nowrap tabular-nums text-[11px] text-muted-foreground">
               {shown.toLocaleString()} / {total.toLocaleString()} skins
               {collectionActive.size > 0 && ` · ${collectionActive.size} bundle${collectionActive.size === 1 ? "" : "s"}`}
             </span>

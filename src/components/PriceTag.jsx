@@ -8,7 +8,7 @@ export default function PriceTag({ price, radianite, showRadianite = false, size
 
   return (
     <div className="flex flex-col items-end gap-0.5 leading-none">
-      <div className={`font-mono font-semibold ${numSize} text-white`}>
+      <div className={`tabular-nums font-semibold ${numSize} text-white`}>
         {isStandard ? (
           <span className="text-muted-foreground">Standard</span>
         ) : (
@@ -23,7 +23,7 @@ export default function PriceTag({ price, radianite, showRadianite = false, size
 
       {showRadianite && radianite && radianite.total > 0 && (
         <div
-          className={`flex items-center gap-1 font-mono ${px} radianite-glow rounded px-1.5 py-0.5`}
+          className={`flex items-center gap-1 tabular-nums ${px} radianite-glow rounded px-1.5 py-0.5`}
           style={{ color: "hsl(var(--radianite))" }}
         >
           <Sparkles className="h-3 w-3" strokeWidth={2.5} />

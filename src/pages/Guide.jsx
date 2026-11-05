@@ -223,7 +223,7 @@ export default function Guide() {
             <div className="mt-3 flex items-center gap-1.5 rounded-full glass-pill px-2 py-1">
               <Columns3 className="h-3.5 w-3.5 text-muted-foreground" />
               <button onClick={() => setCols((c) => Math.max(MIN_COLS, c - 1))} disabled={cols <= MIN_COLS} aria-label="Fewer columns" className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/70 transition-all hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"><Minus className="h-3.5 w-3.5" /></button>
-              <span className="w-5 text-center font-mono text-[11px] font-semibold text-foreground/80">{cols}</span>
+              <span className="w-5 text-center tabular-nums text-[11px] font-semibold text-foreground/80">{cols}</span>
               <button onClick={() => setCols((c) => Math.min(MAX_COLS, c + 1))} disabled={cols >= MAX_COLS} aria-label="More columns" className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/70 transition-all hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"><Plus className="h-3.5 w-3.5" /></button>
             </div>
             <div className="mt-auto flex items-center gap-2 pt-3">

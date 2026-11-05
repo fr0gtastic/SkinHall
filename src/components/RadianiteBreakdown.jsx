@@ -18,7 +18,7 @@ export default function RadianiteBreakdown({ skin }) {
         <span style={{ color: "hsl(var(--radianite))" }}>{icon}</span>
         <span>{label}</span>
       </div>
-      <span className="font-mono text-sm font-semibold" style={{ color: "hsl(var(--radianite))" }}>
+      <span className="tabular-nums text-sm font-semibold" style={{ color: "hsl(var(--radianite))" }}>
         {value} RP
       </span>
     </div>
@@ -70,7 +70,7 @@ export default function RadianiteBreakdown({ skin }) {
           Total
         </span>
         <span
-          className="font-mono text-lg font-bold radianite-glow rounded px-2 py-0.5"
+          className="tabular-nums text-lg font-bold radianite-glow rounded px-2 py-0.5"
           style={{ color: "hsl(var(--radianite))" }}
         >
           {rp.total} RP
