@@ -70,12 +70,15 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
           )}
           {/* variant count chip */}
           {variantCount > 0 && (
-            <span className="absolute left-2 top-2 z-10 flex items-center gap-1 rounded-md bg-background/70 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground/80 backdrop-blur-sm">
+            <span className="absolute left-2 top-2 z-10 flex items-center gap-1 rounded-md bg-background/70 px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-foreground/80 backdrop-blur-sm">
               +{variantCount} variant{variantCount === 1 ? "" : "s"}
             </span>
           )}
           {skin.tierId && (
-            <span className="absolute right-2 top-2 z-10">
+            <span
+              className="absolute right-3 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-xl glass-pill p-0"
+              style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))" }}
+            >
               <RarityBadge tierId={skin.tierId} tierName={skin.tierName} />
             </span>
           )}
@@ -95,7 +98,7 @@ export default function SkinCard({ skin, showRadianite, showPrice = true, showLe
             </p>
           </div>
           {showPrice && skin.agentName ? (
-            <div className="font-mono font-semibold text-sm text-white text-end mt-auto sm:mt-0">
+            <div className="font-semibold text-sm text-white text-end mt-auto sm:mt-0">
               {skin.agentName}
             </div>
           ) : showPrice && (
